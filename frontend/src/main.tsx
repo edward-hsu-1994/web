@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 
 type Language = 'en-US' | 'zh-TW'
+type TypingStage = 'waiting' | 'greeting' | 'name' | 'intro' | 'done'
 type HeroContent = {
   greeting: string
   name: string
@@ -118,6 +119,7 @@ function App() {
   const [typedGreeting, setTypedGreeting] = useState('')
   const [typedName, setTypedName] = useState('')
   const [typedIntro, setTypedIntro] = useState('')
+  const [typingStage, setTypingStage] = useState<TypingStage>('waiting')
 
   useEffect(() => {
     localStorage.setItem('preferred-language', language)
@@ -134,10 +136,16 @@ function App() {
     setTypedGreeting('')
     setTypedName('')
     setTypedIntro('')
+    setTypingStage('waiting')
 
     const typingDelay = 1000
     const nameStart = typingDelay + content.greeting.length * 48
     const introStart = nameStart + content.name.length * 48 + 280
+    const doneAt = introStart + content.intro.length * 48
+    timers.push(window.setTimeout(() => setTypingStage('greeting'), typingDelay))
+    timers.push(window.setTimeout(() => setTypingStage('name'), nameStart))
+    timers.push(window.setTimeout(() => setTypingStage('intro'), introStart))
+    timers.push(window.setTimeout(() => setTypingStage('done'), doneAt))
     typeText(content.greeting, setTypedGreeting, typingDelay)
     typeText(content.name, setTypedName, nameStart)
     typeText(content.intro, setTypedIntro, introStart)
@@ -201,10 +209,12 @@ function App() {
         <div className="hero-copy">
           <p className="eyebrow mb-5">Personal website</p>
           <h1 className="hero-title max-w-3xl text-5xl font-bold tracking-tight sm:text-7xl">
-            {typedGreeting}<span className="name-gradient">{typedName}</span>
+            {typedGreeting}{typingStage === 'greeting' && <span className="typing-cursor" aria-hidden="true" />}
+            <span className="name-gradient">{typedName}</span>
+            {typingStage === 'name' && <span className="typing-cursor" aria-hidden="true" />}
           </h1>
           <p className="hero-intro mt-7 max-w-2xl text-lg leading-8 text-slate-300">
-            {typedIntro}
+            {typedIntro}{typingStage === 'intro' && <span className="typing-cursor" aria-hidden="true" />}
           </p>
           <div className="hero-actions mt-9 flex flex-wrap gap-4">
             {heroButtons.map((button) => (
