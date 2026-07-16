@@ -4,6 +4,7 @@ import './index.css'
 
 type Language = 'en-US' | 'zh-TW'
 type TypingStage = 'waiting' | 'greeting' | 'name' | 'intro' | 'done'
+const EMPTY_IME_ANIME: Record<string, string> = {}
 type HeroContent = {
   greeting: string
   name: string
@@ -23,6 +24,9 @@ type HeroButton = {
 type Home = {
   hero: {
     l10n_supported_fields: string[]
+    content_ime_anime?: {
+      'zh-TW': Record<string, string>
+    }
     content: {
       'en-US': HeroContent
       'zh-TW': HeroContent
@@ -57,66 +61,13 @@ function App() {
     if (savedLanguage === 'zh' || savedLanguage === 'zh-TW') return 'zh-TW'
     return 'en-US'
   })
-  const [home, setHome] = useState<Home>({
-    hero: {
-      l10n_supported_fields: ['content'],
-      content: {
-        'en-US': {
-          greeting: 'Hi, I\'m ',
-          name: 'Edward Hsu',
-          title: 'Software Developer',
-          intro: 'Software developer focused on building thoughtful digital experiences and useful products.',
-        },
-        'zh-TW': {
-          greeting: '你好，我是 ',
-          name: 'Edward Hsu',
-          title: '軟體開發者',
-          intro: '專注於打造周到的數位體驗與實用產品的軟體開發者。',
-        },
-      },
-      photo: {
-        imageUrl: 'https://github.com/edward-hsu-1994.png?size=512',
-      },
-      buttons: {
-        items: [
-          {
-            text: { 'en-US': 'Explore my GitHub', 'zh-TW': '瀏覽我的 GitHub' },
-            type: 'link',
-            link: 'https://github.com/edward-hsu-1994',
-            class: 'primary-button',
-            l10n_supported_fields: ['text'],
-          },
-          {
-            text: { 'en-US': 'View profile', 'zh-TW': '查看個人資料' },
-            type: 'link',
-            link: 'https://gravatar.com/edwardhsu1994',
-            class: 'secondary-button',
-            l10n_supported_fields: ['text'],
-          },
-        ],
-      },
-    },
-  })
-  const [navigation, setNavigation] = useState<Navigation>({
-    l10n_supported_fields: ['items'],
-    items: [
-      {
-        text: { 'en-US': 'GitHub', 'zh-TW': 'GitHub' },
-        type: 'link',
-        link: 'https://github.com/edward-hsu-1994',
-        l10n_supported_fields: ['text'],
-      },
-      {
-        text: 'Gravatar',
-        type: 'link',
-        link: 'https://gravatar.com/edwardhsu1994',
-      },
-    ],
-  })
+  const [home, setHome] = useState<Home | null>(null)
+  const [navigation, setNavigation] = useState<Navigation | null>(null)
   const isChinese = language === 'zh-TW'
-  const content = home.hero.content[language] ?? home.hero.content['en-US']
-  const heroButtons = home.hero.buttons.items
-  const navigationItems = navigation.items
+  const content = home?.hero.content[language] ?? home?.hero.content['en-US']
+  const imeAnime = home?.hero.content_ime_anime?.['zh-TW'] ?? EMPTY_IME_ANIME
+  const heroButtons = home?.hero.buttons.items ?? []
+  const navigationItems = navigation?.items ?? []
   const [typedGreeting, setTypedGreeting] = useState('')
   const [typedName, setTypedName] = useState('')
   const [typedIntro, setTypedIntro] = useState('')
@@ -127,10 +78,22 @@ function App() {
   }, [language])
 
   useEffect(() => {
+    if (!content) return undefined
+
     const timers: number[] = []
-    const typeText = (text: string, setter: (value: string) => void, startAt: number) => {
+    const typingDuration = (text: string, speed?: number) => {
+      const usesIme = [...text].some((character) => imeAnime[character])
+      return text.length * (speed ?? (usesIme ? 160 : 48))
+    }
+    const typeText = (text: string, setter: (value: string) => void, startAt: number, speed?: number) => {
+      const usesIme = [...text].some((character) => imeAnime[character])
+      const characterDelay = speed ?? (usesIme ? 160 : 48)
       for (let index = 0; index < text.length; index += 1) {
-        timers.push(window.setTimeout(() => setter(text.slice(0, index + 1)), startAt + index * 48))
+        const character = text[index]
+        const pronunciation = usesIme ? imeAnime[character] : undefined
+        const characterStart = startAt + index * characterDelay
+        timers.push(window.setTimeout(() => setter(text.slice(0, index) + (pronunciation ?? character)), characterStart))
+        timers.push(window.setTimeout(() => setter(text.slice(0, index + 1)), characterStart + (pronunciation ? Math.min(95, characterDelay - 20) : 0)))
       }
     }
 
@@ -141,19 +104,20 @@ function App() {
 
     const typingDelay = initialTypingRef.current ? 1000 : 0
     initialTypingRef.current = false
-    const nameStart = typingDelay + content.greeting.length * 48
-    const introStart = nameStart + content.name.length * 48 + 280
-    const doneAt = introStart + content.intro.length * 48
+    const nameStart = typingDelay + typingDuration(content.greeting)
+    const introStart = nameStart + typingDuration(content.name) + 280
+    const introSpeed = 40
+    const doneAt = introStart + typingDuration(content.intro, introSpeed)
     timers.push(window.setTimeout(() => setTypingStage('greeting'), typingDelay))
     timers.push(window.setTimeout(() => setTypingStage('name'), nameStart))
     timers.push(window.setTimeout(() => setTypingStage('intro'), introStart))
     timers.push(window.setTimeout(() => setTypingStage('done'), doneAt))
     typeText(content.greeting, setTypedGreeting, typingDelay)
     typeText(content.name, setTypedName, nameStart)
-    typeText(content.intro, setTypedIntro, introStart)
+    typeText(content.intro, setTypedIntro, introStart, introSpeed)
 
     return () => timers.forEach((timer) => window.clearTimeout(timer))
-  }, [content.greeting, content.name, content.intro])
+  }, [content?.greeting, content?.name, content?.intro, imeAnime, language])
 
   useEffect(() => {
     const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:8000'
@@ -177,6 +141,16 @@ function App() {
     window.addEventListener('mousemove', handleMouseMove)
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
+
+  if (!home || !navigation || !content) {
+    return (
+      <main className="site-shell min-h-screen px-6 py-8 text-white sm:px-12 sm:py-12">
+        <div className="mx-auto flex min-h-[70vh] max-w-5xl items-center justify-center text-sm text-slate-400">
+          Loading...
+        </div>
+      </main>
+    )
+  }
 
   return (
     <main className="site-shell page-enter min-h-screen px-6 py-8 text-white sm:px-12 sm:py-12">
