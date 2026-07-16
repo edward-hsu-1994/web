@@ -3,17 +3,49 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 
 type Language = 'en-US' | 'zh-TW'
-type ProfileContent = {
+type HeroContent = {
+  greeting: string
   name: string
   title: string
   intro: string
-  github: string
-  gravatar: string
 }
-type Profile = {
-  'en-US': ProfileContent
-  'zh-TW': ProfileContent
-  default_lang: Language
+type HeroButton = {
+  text: {
+    'en-US': string
+    'zh-TW': string
+  }
+  type: 'link'
+  link: string
+  class: string
+  l10n_supported_fields: string[]
+}
+type Home = {
+  hero: {
+    l10n_supported_fields: string[]
+    content: {
+      'en-US': HeroContent
+      'zh-TW': HeroContent
+    }
+    photo: {
+      imageUrl: string
+    }
+    buttons: {
+      items: HeroButton[]
+    }
+  }
+}
+type NavigationItem = {
+  text: string | {
+    'en-US': string
+    'zh-TW': string
+  }
+  type: 'link'
+  link: string
+  l10n_supported_fields?: string[]
+}
+type Navigation = {
+  l10n_supported_fields: string[]
+  items: NavigationItem[]
 }
 
 function App() {
@@ -22,25 +54,66 @@ function App() {
     if (savedLanguage === 'zh' || savedLanguage === 'zh-TW') return 'zh-TW'
     return 'en-US'
   })
-  const [profile, setProfile] = useState<Profile>({
-    'en-US': {
-      name: 'Edward Hsu',
-      title: 'Software Developer',
-      intro: 'Software developer focused on building thoughtful digital experiences and useful products.',
-      github: 'https://github.com/edward-hsu-1994',
-      gravatar: 'https://gravatar.com/edwardhsu1994',
+  const [home, setHome] = useState<Home>({
+    hero: {
+      l10n_supported_fields: ['content'],
+      content: {
+        'en-US': {
+          greeting: 'Hi, I\'m ',
+          name: 'Edward Hsu',
+          title: 'Software Developer',
+          intro: 'Software developer focused on building thoughtful digital experiences and useful products.',
+        },
+        'zh-TW': {
+          greeting: '你好，我是 ',
+          name: 'Edward Hsu',
+          title: '軟體開發者',
+          intro: '專注於打造周到的數位體驗與實用產品的軟體開發者。',
+        },
+      },
+      photo: {
+        imageUrl: 'https://github.com/edward-hsu-1994.png?size=512',
+      },
+      buttons: {
+        items: [
+          {
+            text: { 'en-US': 'Explore my GitHub', 'zh-TW': '瀏覽我的 GitHub' },
+            type: 'link',
+            link: 'https://github.com/edward-hsu-1994',
+            class: 'primary-button',
+            l10n_supported_fields: ['text'],
+          },
+          {
+            text: { 'en-US': 'View profile', 'zh-TW': '查看個人資料' },
+            type: 'link',
+            link: 'https://gravatar.com/edwardhsu1994',
+            class: 'secondary-button',
+            l10n_supported_fields: ['text'],
+          },
+        ],
+      },
     },
-    'zh-TW': {
-      name: 'Edward Hsu',
-      title: '軟體開發者',
-      intro: '專注於打造周到的數位體驗與實用產品的軟體開發者。',
-      github: 'https://github.com/edward-hsu-1994',
-      gravatar: 'https://gravatar.com/edwardhsu1994',
-    },
-    default_lang: 'en-US',
+  })
+  const [navigation, setNavigation] = useState<Navigation>({
+    l10n_supported_fields: ['items'],
+    items: [
+      {
+        text: { 'en-US': 'GitHub', 'zh-TW': 'GitHub' },
+        type: 'link',
+        link: 'https://github.com/edward-hsu-1994',
+        l10n_supported_fields: ['text'],
+      },
+      {
+        text: 'Gravatar',
+        type: 'link',
+        link: 'https://gravatar.com/edwardhsu1994',
+      },
+    ],
   })
   const isChinese = language === 'zh-TW'
-  const content = profile[language] ?? profile[profile.default_lang]
+  const content = home.hero.content[language] ?? home.hero.content['en-US']
+  const heroButtons = home.hero.buttons.items
+  const navigationItems = navigation.items
 
   useEffect(() => {
     localStorage.setItem('preferred-language', language)
@@ -50,7 +123,12 @@ function App() {
     const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:8000'
     fetch(`${apiUrl}/api/home`)
       .then((response) => response.json())
-      .then((data: Profile) => setProfile(data))
+      .then((data: Home) => setHome(data))
+      .catch(() => undefined)
+
+    fetch(`${apiUrl}/api/navigation`)
+      .then((response) => response.json())
+      .then((data: Navigation) => setNavigation(data))
       .catch(() => undefined)
   }, [])
 
@@ -59,13 +137,16 @@ function App() {
       <nav className="mx-auto flex max-w-5xl items-center justify-between">
         <span className="brand-mark">EH<span>.</span></span>
         <div className="nav-links flex items-center gap-3 text-sm text-slate-300">
-          <a className="nav-link" href="https://github.com/edward-hsu-1994" target="_blank" rel="noreferrer">
-            {isChinese ? 'GitHub' : 'GitHub'}
-          </a>
-          <span className="nav-divider" aria-hidden="true">|</span>
-          <a className="nav-link" href="https://gravatar.com/edwardhsu1994" target="_blank" rel="noreferrer">
-            Gravatar
-          </a>
+          {navigationItems.map((item, index) => (
+            <span className="nav-item" key={item.link}>
+              {index > 0 && <span className="nav-divider" aria-hidden="true">|</span>}
+              {item.type === 'link' && (
+                <a className="nav-link" href={item.link} target="_blank" rel="noreferrer">
+                  {typeof item.text === 'string' ? item.text : item.text[language]}
+                </a>
+              )}
+            </span>
+          ))}
           <span className="nav-divider" aria-hidden="true">|</span>
           <div className="language-switcher" aria-label="Language selector">
             <button className={isChinese ? 'language-option active' : 'language-option'} type="button" onClick={() => setLanguage('zh-TW')}>
@@ -83,23 +164,24 @@ function App() {
         <div className="hero-copy">
           <p className="eyebrow mb-5">Personal website</p>
           <h1 className="hero-title max-w-3xl text-5xl font-bold tracking-tight sm:text-7xl">
-            {isChinese ? '你好，我是 ' : 'Hi, I\'m '}<span className="name-gradient">Edward Hsu.</span>
+            {content.greeting}<span className="name-gradient">{content.name}</span>
           </h1>
           <p className="hero-intro mt-7 max-w-2xl text-lg leading-8 text-slate-300">
             {content.intro}
           </p>
           <div className="hero-actions mt-9 flex flex-wrap gap-4">
-            <a className="primary-button" href="https://github.com/edward-hsu-1994" target="_blank" rel="noreferrer">
-              {isChinese ? '瀏覽我的 GitHub' : 'Explore my GitHub'} <span aria-hidden="true">↗</span>
-            </a>
-            <a className="secondary-button" href="https://gravatar.com/edwardhsu1994" target="_blank" rel="noreferrer">
-              {isChinese ? '查看個人資料' : 'View profile'}
-            </a>
+            {heroButtons.map((button) => (
+              button.type === 'link' && (
+                <a className={button.class} href={button.link} target="_blank" rel="noreferrer" key={button.link}>
+                  {button.text[language]}{button.class === 'primary-button' && <span aria-hidden="true"> ↗</span>}
+                </a>
+              )
+            ))}
           </div>
         </div>
 
         <a className="avatar-card" href="https://gravatar.com/edwardhsu1994" target="_blank" rel="noreferrer" aria-label="View Edward Hsu's Gravatar profile">
-          <img src="https://github.com/edward-hsu-1994.png?size=512" alt="Edward Hsu" />
+          <img src={home.hero.photo.imageUrl} alt={content.name} />
           <span>Find me online <span aria-hidden="true">↗</span></span>
         </a>
       </section>
