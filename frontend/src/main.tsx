@@ -21,7 +21,7 @@ function App() {
         <div className="hero-copy">
           <p className="eyebrow mb-5">Personal website</p>
           <h1 className="hero-title max-w-3xl text-5xl font-bold tracking-tight sm:text-7xl">
-            Hi, I&apos;m <span className="text-cyan-300">Edward Hsu.</span>
+            Hi, I&apos;m <span className="name-gradient">Edward Hsu.</span>
           </h1>
           <p className="hero-intro mt-7 max-w-2xl text-lg leading-8 text-slate-300">
             Software developer focused on building thoughtful digital experiences and useful products.

@@ -48,6 +48,15 @@ a {
 .hero-copy .hero-intro { animation-delay: 390ms; }
 .hero-copy .hero-actions { animation-delay: 500ms; }
 .avatar-card { animation: avatar-in 900ms 380ms cubic-bezier(.2,.8,.2,1) both; }
+.name-gradient {
+  background: linear-gradient(110deg, #67e8f9 10%, #a78bfa 45%, #c084fc 65%, #67e8f9 90%);
+  background-size: 240% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: name-shimmer 5s ease-in-out infinite;
+}
 
 @keyframes page-fade-in { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slide-down { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
@@ -59,6 +68,10 @@ a {
 @keyframes orbit-glow {
   0%, 100% { transform: translate(0, 0) scale(1); opacity: .5; }
   50% { transform: translate(-18px, 20px) scale(1.08); opacity: 1; }
+}
+@keyframes name-shimmer {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
 }
 
 @media (prefers-reduced-motion: reduce) {
