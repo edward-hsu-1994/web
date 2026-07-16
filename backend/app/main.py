@@ -22,11 +22,21 @@ def health_check() -> dict[str, str]:
 
 
 @app.get("/api/profile", tags=["profile"])
-def get_profile() -> dict[str, str]:
+def get_profile() -> dict[str, object]:
     return {
-        "name": "Edward Hsu",
-        "title": "Software Developer",
-        "intro": "Building thoughtful digital experiences.",
-        "github": "https://github.com/edward-hsu-1994",
-        "gravatar": "https://gravatar.com/edwardhsu1994",
+        "en-US": {
+            "name": "Edward Hsu",
+            "title": "Software Developer",
+            "intro": "Software developer focused on building thoughtful digital experiences and useful products.",
+            "github": "https://github.com/edward-hsu-1994",
+            "gravatar": "https://gravatar.com/edwardhsu1994",
+        },
+        "zh-TW": {
+            "name": "Edward Hsu",
+            "title": "軟體開發者",
+            "intro": "專注於打造周到的數位體驗與實用產品的軟體開發者。",
+            "github": "https://github.com/edward-hsu-1994",
+            "gravatar": "https://gravatar.com/edwardhsu1994",
+        },
+        "default_lang": "en-US",
     }

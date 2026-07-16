@@ -91,6 +91,25 @@ a {
 .brand-mark span { color: #67e8f9; }
 .nav-link { transition: color 180ms ease; }
 .nav-link:hover { color: #67e8f9; }
+.language-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #64748b;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.language-option {
+  padding: 0.3rem 0.15rem;
+  color: #64748b;
+  cursor: pointer;
+  transition: color 180ms ease, transform 180ms ease;
+}
+.language-option:hover, .language-option.active {
+  color: #67e8f9;
+}
+.language-option:hover { transform: translateY(-1px); }
+.language-option.active { text-decoration: underline; text-underline-offset: 0.25rem; }
 .eyebrow {
   color: #67e8f9;
   font-size: 0.75rem;
