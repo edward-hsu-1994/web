@@ -19,9 +19,54 @@ a {
 }
 
 .site-shell {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   background:
     radial-gradient(circle at 72% 24%, rgba(34, 211, 238, 0.12), transparent 28rem),
     #020617;
+}
+
+.site-shell::before {
+  position: absolute;
+  z-index: -1;
+  top: 12%;
+  right: 10%;
+  width: 18rem;
+  height: 18rem;
+  border: 1px solid rgba(103, 232, 249, 0.12);
+  border-radius: 999px;
+  content: '';
+  animation: orbit-glow 12s ease-in-out infinite;
+}
+
+.page-enter { animation: page-fade-in 700ms ease-out both; }
+.nav-links { animation: slide-down 650ms 100ms ease-out both; }
+.hero-copy > * { animation: rise-in 700ms ease-out both; }
+.hero-copy .eyebrow { animation-delay: 180ms; }
+.hero-copy .hero-title { animation-delay: 280ms; }
+.hero-copy .hero-intro { animation-delay: 390ms; }
+.hero-copy .hero-actions { animation-delay: 500ms; }
+.avatar-card { animation: avatar-in 900ms 380ms cubic-bezier(.2,.8,.2,1) both; }
+
+@keyframes page-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slide-down { from { opacity: 0; transform: translateY(-12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes rise-in { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes avatar-in {
+  from { opacity: 0; transform: translateY(28px) scale(.92) rotate(-4deg); }
+  to { opacity: 1; transform: translateY(0) scale(1) rotate(0); }
+}
+@keyframes orbit-glow {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: .5; }
+  50% { transform: translate(-18px, 20px) scale(1.08); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 .brand-mark {
