@@ -27,6 +27,28 @@ a {
     #020617;
 }
 
+.cursor-glow {
+  position: fixed;
+  z-index: 0;
+  top: var(--cursor-y, 50vh);
+  left: var(--cursor-x, 50vw);
+  width: 20rem;
+  height: 20rem;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, rgba(126, 34, 206, 0.08) 38%, transparent 72%);
+  filter: blur(16px);
+  opacity: 0.75;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  transition: top 120ms ease-out, left 120ms ease-out;
+  mix-blend-mode: screen;
+}
+
+.site-shell > :not(.cursor-glow) {
+  position: relative;
+  z-index: 1;
+}
+
 .site-shell::before {
   position: absolute;
   z-index: -1;
@@ -91,6 +113,10 @@ a {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
   }
+}
+
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .cursor-glow { display: none; }
 }
 
 .brand-mark {

@@ -1,4 +1,4 @@
-import { Fragment, StrictMode, useEffect, useState } from 'react'
+import { Fragment, StrictMode, useEffect, useRef, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 
@@ -49,6 +49,7 @@ type Navigation = {
 }
 
 function App() {
+  const cursorGlowRef = useRef<HTMLDivElement>(null)
   const [language, setLanguage] = useState<Language>(() => {
     const savedLanguage = localStorage.getItem('preferred-language')
     if (savedLanguage === 'zh' || savedLanguage === 'zh-TW') return 'zh-TW'
@@ -132,8 +133,19 @@ function App() {
       .catch(() => undefined)
   }, [])
 
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      cursorGlowRef.current?.style.setProperty('--cursor-x', `${event.clientX}px`)
+      cursorGlowRef.current?.style.setProperty('--cursor-y', `${event.clientY}px`)
+    }
+
+    window.addEventListener('mousemove', handleMouseMove)
+    return () => window.removeEventListener('mousemove', handleMouseMove)
+  }, [])
+
   return (
     <main className="site-shell page-enter min-h-screen px-6 py-8 text-white sm:px-12 sm:py-12">
+      <div className="cursor-glow" ref={cursorGlowRef} aria-hidden="true" />
       <nav className="mx-auto flex max-w-5xl items-center justify-between">
         <span className="brand-mark">EH<span>.</span></span>
         <div className="nav-links flex items-center gap-3 text-sm text-slate-300">
