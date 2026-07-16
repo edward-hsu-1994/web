@@ -1,4 +1,4 @@
-import { StrictMode, useEffect, useState } from 'react'
+import { Fragment, StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 
@@ -138,14 +138,14 @@ function App() {
         <span className="brand-mark">EH<span>.</span></span>
         <div className="nav-links flex items-center gap-3 text-sm text-slate-300">
           {navigationItems.map((item, index) => (
-            <span className="nav-item" key={item.link}>
+            <Fragment key={item.link}>
               {index > 0 && <span className="nav-divider" aria-hidden="true">|</span>}
               {item.type === 'link' && (
                 <a className="nav-link" href={item.link} target="_blank" rel="noreferrer">
                   {typeof item.text === 'string' ? item.text : item.text[language]}
                 </a>
               )}
-            </span>
+            </Fragment>
           ))}
           <span className="nav-divider" aria-hidden="true">|</span>
           <div className="language-switcher" aria-label="Language selector">
