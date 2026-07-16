@@ -51,6 +51,7 @@ type Navigation = {
 
 function App() {
   const cursorGlowRef = useRef<HTMLDivElement>(null)
+  const initialTypingRef = useRef(true)
   const [language, setLanguage] = useState<Language>(() => {
     const savedLanguage = localStorage.getItem('preferred-language')
     if (savedLanguage === 'zh' || savedLanguage === 'zh-TW') return 'zh-TW'
@@ -138,7 +139,8 @@ function App() {
     setTypedIntro('')
     setTypingStage('waiting')
 
-    const typingDelay = 1000
+    const typingDelay = initialTypingRef.current ? 1000 : 0
+    initialTypingRef.current = false
     const nameStart = typingDelay + content.greeting.length * 48
     const introStart = nameStart + content.name.length * 48 + 280
     const doneAt = introStart + content.intro.length * 48
