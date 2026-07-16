@@ -21,8 +21,8 @@ def health_check() -> dict[str, str]:
     return {"status": "ok"}
 
 
-@app.get("/api/profile", tags=["profile"])
-def get_profile() -> dict[str, object]:
+@app.get("/api/home", tags=["home"])
+def get_home() -> dict[str, object]:
     return {
         "en-US": {
             "name": "Edward Hsu",

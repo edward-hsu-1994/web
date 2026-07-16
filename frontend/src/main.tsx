@@ -48,7 +48,7 @@ function App() {
 
   useEffect(() => {
     const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:8000'
-    fetch(`${apiUrl}/api/profile`)
+    fetch(`${apiUrl}/api/home`)
       .then((response) => response.json())
       .then((data: Profile) => setProfile(data))
       .catch(() => undefined)
@@ -62,9 +62,11 @@ function App() {
           <a className="nav-link" href="https://github.com/edward-hsu-1994" target="_blank" rel="noreferrer">
             {isChinese ? 'GitHub' : 'GitHub'}
           </a>
+          <span className="nav-divider" aria-hidden="true">|</span>
           <a className="nav-link" href="https://gravatar.com/edwardhsu1994" target="_blank" rel="noreferrer">
             Gravatar
           </a>
+          <span className="nav-divider" aria-hidden="true">|</span>
           <div className="language-switcher" aria-label="Language selector">
             <button className={isChinese ? 'language-option active' : 'language-option'} type="button" onClick={() => setLanguage('zh-TW')}>
               中文

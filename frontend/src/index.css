@@ -41,7 +41,16 @@ a {
 }
 
 .page-enter { animation: page-fade-in 700ms ease-out both; }
-.nav-links { animation: slide-down 650ms 100ms ease-out both; }
+.nav-links {
+  padding: 0.55rem 0.75rem;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.42);
+  box-shadow: 0 8px 30px rgba(2, 6, 23, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  animation: slide-down 650ms 100ms ease-out both;
+}
 .hero-copy > * { animation: rise-in 700ms ease-out both; }
 .hero-copy .eyebrow { animation-delay: 180ms; }
 .hero-copy .hero-title { animation-delay: 280ms; }
@@ -91,6 +100,10 @@ a {
 .brand-mark span { color: #67e8f9; }
 .nav-link { transition: color 180ms ease; }
 .nav-link:hover { color: #67e8f9; }
+.nav-divider {
+  color: rgba(148, 163, 184, 0.42);
+  user-select: none;
+}
 .language-switcher {
   display: flex;
   align-items: center;
