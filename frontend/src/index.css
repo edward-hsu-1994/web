@@ -155,6 +155,7 @@ a {
 .brand-mark span { color: #67e8f9; }
 .nav-link { transition: color 180ms ease; }
 .nav-link:hover { color: #67e8f9; }
+.nav-link.active { color: #67e8f9; }
 .nav-divider {
   color: rgba(148, 163, 184, 0.42);
   user-select: none;

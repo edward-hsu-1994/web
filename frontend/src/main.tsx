@@ -1,4 +1,4 @@
-import { Fragment, StrictMode, useEffect, useRef, useState } from 'react'
+import { Fragment, StrictMode, useEffect, useRef, useState, type MouseEvent as ReactMouseEvent } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 
@@ -16,8 +16,9 @@ type HeroButton = {
     'en-US': string
     'zh-TW': string
   }
-  type: 'link'
-  link: string
+  type: 'link' | 'path'
+  link?: string
+  path?: string
   class: string
   l10n_supported_fields: string[]
 }
@@ -44,8 +45,9 @@ type NavigationItem = {
     'en-US': string
     'zh-TW': string
   }
-  type: 'link'
-  link: string
+  type: 'link' | 'path'
+  link?: string
+  path?: string
   l10n_supported_fields?: string[]
 }
 type Navigation = {
@@ -56,6 +58,7 @@ type Navigation = {
 function App() {
   const cursorGlowRef = useRef<HTMLDivElement>(null)
   const initialTypingRef = useRef(true)
+  const [pathname, setPathname] = useState(window.location.pathname)
   const [language, setLanguage] = useState<Language>(() => {
     const savedLanguage = localStorage.getItem('preferred-language')
     if (savedLanguage === 'zh' || savedLanguage === 'zh-TW') return 'zh-TW'
@@ -76,6 +79,12 @@ function App() {
   useEffect(() => {
     localStorage.setItem('preferred-language', language)
   }, [language])
+
+  useEffect(() => {
+    const handlePopState = () => setPathname(window.location.pathname)
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
 
   useEffect(() => {
     if (!content) return undefined
@@ -152,6 +161,12 @@ function App() {
     )
   }
 
+  const navigateToPath = (event: ReactMouseEvent<HTMLAnchorElement>, path: string) => {
+    event.preventDefault()
+    window.history.pushState({}, '', path)
+    setPathname(path)
+  }
+
   return (
     <main className="site-shell page-enter min-h-screen px-6 py-8 text-white sm:px-12 sm:py-12">
       <div className="cursor-glow" ref={cursorGlowRef} aria-hidden="true" />
@@ -159,10 +174,19 @@ function App() {
         <span className="brand-mark">EH<span>.</span></span>
         <div className="nav-links flex items-center gap-3 text-sm text-slate-300">
           {navigationItems.map((item, index) => (
-            <Fragment key={item.link}>
+            <Fragment key={item.path ?? item.link ?? index}>
               {index > 0 && <span className="nav-divider" aria-hidden="true">|</span>}
               {item.type === 'link' && (
                 <a className="nav-link" href={item.link} target="_blank" rel="noreferrer">
+                  {typeof item.text === 'string' ? item.text : item.text[language]}
+                </a>
+              )}
+              {item.type === 'path' && item.path && (
+                <a
+                  className={pathname === item.path ? 'nav-link active' : 'nav-link'}
+                  href={item.path}
+                  onClick={(event) => navigateToPath(event, item.path!)}
+                >
                   {typeof item.text === 'string' ? item.text : item.text[language]}
                 </a>
               )}
@@ -181,6 +205,17 @@ function App() {
         </div>
       </nav>
 
+      {pathname === '/portfolio' ? (
+        <section className="portfolio-page mx-auto min-h-[75vh] max-w-5xl py-20">
+          <p className="eyebrow mb-5">Portfolio</p>
+          <h1 className="max-w-3xl text-5xl font-bold tracking-tight sm:text-7xl">
+            {isChinese ? '作品集' : 'Selected work'}
+          </h1>
+          <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300">
+            {isChinese ? '這裡將展示我的作品與實作專案。' : 'A collection of projects, experiments, and thoughtful digital experiences.'}
+          </p>
+        </section>
+      ) : (
       <section className="hero mx-auto grid min-h-[75vh] max-w-5xl items-center gap-12 py-20 lg:grid-cols-[1fr_280px]">
         <div className="hero-copy">
           <p className="eyebrow mb-5">Personal website</p>
@@ -208,6 +243,7 @@ function App() {
           <span>Find me online <span aria-hidden="true">↗</span></span>
         </a>
       </section>
+      )}
     </main>
   )
 }

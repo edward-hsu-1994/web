@@ -23,6 +23,24 @@ def get_navigation() -> dict[str, object]:
         "items": [
             {
                 "text": {
+                    "en-US": "Home",
+                    "zh-TW": "首頁",
+                },
+                "type": "path",
+                "path": "/",
+                "l10n_supported_fields": ["text"],
+            },
+            {
+                "text": {
+                    "en-US": "Portfolio",
+                    "zh-TW": "作品集",
+                },
+                "type": "path",
+                "path": "/portfolio",
+                "l10n_supported_fields": ["text"],
+            },
+            {
+                "text": {
                     "en-US": "GitHub",
                     "zh-TW": "GitHub",
                 },
@@ -31,9 +49,9 @@ def get_navigation() -> dict[str, object]:
                 "l10n_supported_fields": ["text"],
             },
             {
-                "text": "Gravatar",
+                "text": "LinkedIn",
                 "type": "link",
-                "link": "https://gravatar.com/edwardhsu1994",
+                "link": "https://www.linkedin.com/in/edwardhsu1994/",
             },
         ],
     }
@@ -111,11 +129,11 @@ def get_home() -> dict[str, object]:
                     },
                     {
                         "text": {
-                            "en-US": "View profile",
-                            "zh-TW": "查看個人資料",
+                            "en-US": "View LinkedIn",
+                            "zh-TW": "查看 LinkedIn",
                         },
                         "type": "link",
-                        "link": "https://gravatar.com/edwardhsu1994",
+                        "link": "https://www.linkedin.com/in/edwardhsu1994/",
                         "class": "secondary-button",
                         "l10n_supported_fields": ["text"],
                     },
