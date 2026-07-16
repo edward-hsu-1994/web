@@ -58,6 +58,8 @@ a {
 .hero-copy .hero-actions { animation-delay: 500ms; }
 .avatar-card { animation: avatar-in 900ms 380ms cubic-bezier(.2,.8,.2,1) both; }
 .name-gradient {
+  display: inline-block;
+  white-space: nowrap;
   background: linear-gradient(110deg, #67e8f9 10%, #a78bfa 45%, #c084fc 65%, #67e8f9 90%);
   background-size: 240% auto;
   background-clip: text;
