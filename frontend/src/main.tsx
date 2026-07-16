@@ -115,10 +115,35 @@ function App() {
   const content = home.hero.content[language] ?? home.hero.content['en-US']
   const heroButtons = home.hero.buttons.items
   const navigationItems = navigation.items
+  const [typedGreeting, setTypedGreeting] = useState('')
+  const [typedName, setTypedName] = useState('')
+  const [typedIntro, setTypedIntro] = useState('')
 
   useEffect(() => {
     localStorage.setItem('preferred-language', language)
   }, [language])
+
+  useEffect(() => {
+    const timers: number[] = []
+    const typeText = (text: string, setter: (value: string) => void, startAt: number) => {
+      for (let index = 0; index < text.length; index += 1) {
+        timers.push(window.setTimeout(() => setter(text.slice(0, index + 1)), startAt + index * 48))
+      }
+    }
+
+    setTypedGreeting('')
+    setTypedName('')
+    setTypedIntro('')
+
+    const typingDelay = 1000
+    const nameStart = typingDelay + content.greeting.length * 48
+    const introStart = nameStart + content.name.length * 48 + 280
+    typeText(content.greeting, setTypedGreeting, typingDelay)
+    typeText(content.name, setTypedName, nameStart)
+    typeText(content.intro, setTypedIntro, introStart)
+
+    return () => timers.forEach((timer) => window.clearTimeout(timer))
+  }, [content.greeting, content.name, content.intro])
 
   useEffect(() => {
     const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:8000'
@@ -176,10 +201,10 @@ function App() {
         <div className="hero-copy">
           <p className="eyebrow mb-5">Personal website</p>
           <h1 className="hero-title max-w-3xl text-5xl font-bold tracking-tight sm:text-7xl">
-            {content.greeting}<span className="name-gradient">{content.name}</span>
+            {typedGreeting}<span className="name-gradient">{typedName}</span>
           </h1>
           <p className="hero-intro mt-7 max-w-2xl text-lg leading-8 text-slate-300">
-            {content.intro}
+            {typedIntro}
           </p>
           <div className="hero-actions mt-9 flex flex-wrap gap-4">
             {heroButtons.map((button) => (
