@@ -32,6 +32,15 @@ def get_navigation() -> dict[str, object]:
             },
             {
                 "text": {
+                    "en-US": "About me",
+                    "zh-TW": "關於我",
+                },
+                "type": "path",
+                "path": "/about",
+                "l10n_supported_fields": ["text"],
+            },
+            {
+                "text": {
                     "en-US": "Portfolio",
                     "zh-TW": "作品集",
                 },
@@ -53,6 +62,23 @@ def get_navigation() -> dict[str, object]:
                 "type": "link",
                 "link": "https://www.linkedin.com/in/edwardhsu1994/",
             },
+        ],
+    }
+
+
+@app.get("/api/about", tags=["about"])
+def get_about() -> dict[str, object]:
+    return {
+        "eyebrow": {"en-US": "A little more about me", "zh-TW": "多認識我一點"},
+        "title": {"en-US": "I turn curious ideas into useful things.", "zh-TW": "我把好奇的想法，變成實用的作品。"},
+        "intro": {
+            "en-US": "I'm Edward, a software developer who enjoys connecting thoughtful design with dependable engineering. I care about the details that make a product feel clear, calm, and genuinely helpful.",
+            "zh-TW": "我是 Edward，一名喜歡把細膩設計與可靠工程結合在一起的軟體開發者。我在意那些讓產品變得清楚、舒服，而且真正有幫助的細節。",
+        },
+        "facts": [
+            {"label": {"en-US": "Focus", "zh-TW": "專注領域"}, "value": {"en-US": "Product-minded engineering", "zh-TW": "以產品思維打造工程"}},
+            {"label": {"en-US": "Based in", "zh-TW": "所在位置"}, "value": {"en-US": "Taiwan · UTC+8", "zh-TW": "台灣 · UTC+8"}},
+            {"label": {"en-US": "Currently learning", "zh-TW": "正在探索"}, "value": {"en-US": "Better ways to build for people", "zh-TW": "更貼近人的創作方式"}},
         ],
     }
 

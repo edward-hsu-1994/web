@@ -224,3 +224,33 @@ a {
   transition: transform 180ms ease;
 }
 .avatar-card:hover img { transform: rotate(2deg) scale(1.03); }
+.about-heading { animation: rise-in 700ms 180ms ease-out both; }
+.about-facts { animation: rise-in 700ms 360ms ease-out both; }
+.fact-card {
+  min-height: 8rem;
+  padding: 1.25rem;
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  border-radius: 1rem;
+  background: rgba(15, 23, 42, 0.52);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+.fact-label {
+  color: #67e8f9;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.fact-value { margin-top: 1rem; color: #e2e8f0; line-height: 1.5; }
+.about-note {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  max-width: 38rem;
+  padding: 1.25rem 1.5rem;
+  border-left: 2px solid #a78bfa;
+  color: #cbd5e1;
+  background: linear-gradient(90deg, rgba(167, 139, 250, 0.1), transparent);
+  animation: rise-in 700ms 500ms ease-out both;
+}
+.about-note-mark { color: #c084fc; font-size: 1.25rem; }

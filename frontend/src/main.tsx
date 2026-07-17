@@ -54,6 +54,12 @@ type Navigation = {
   l10n_supported_fields: string[]
   items: NavigationItem[]
 }
+type About = {
+  eyebrow: Record<Language, string>
+  title: Record<Language, string>
+  intro: Record<Language, string>
+  facts: Array<{ label: Record<Language, string>; value: Record<Language, string> }>
+}
 
 function App() {
   const cursorGlowRef = useRef<HTMLDivElement>(null)
@@ -66,6 +72,7 @@ function App() {
   })
   const [home, setHome] = useState<Home | null>(null)
   const [navigation, setNavigation] = useState<Navigation | null>(null)
+  const [about, setAbout] = useState<About | null>(null)
   const isChinese = language === 'zh-TW'
   const content = home?.hero.content[language] ?? home?.hero.content['en-US']
   const imeAnime = home?.hero.content_ime_anime?.['zh-TW'] ?? EMPTY_IME_ANIME
@@ -139,6 +146,11 @@ function App() {
       .then((response) => response.json())
       .then((data: Navigation) => setNavigation(data))
       .catch(() => undefined)
+
+    fetch(`${apiUrl}/api/about`)
+      .then((response) => response.json())
+      .then((data: About) => setAbout(data))
+      .catch(() => undefined)
   }, [])
 
   useEffect(() => {
@@ -151,7 +163,7 @@ function App() {
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
 
-  if (!home || !navigation || !content) {
+  if (!home || !navigation || !content || !about) {
     return (
       <main className="site-shell min-h-screen px-6 py-8 text-white sm:px-12 sm:py-12">
         <div className="mx-auto flex min-h-[70vh] max-w-5xl items-center justify-center text-sm text-slate-400">
@@ -214,6 +226,26 @@ function App() {
           <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300">
             {isChinese ? '這裡將展示我的作品與實作專案。' : 'A collection of projects, experiments, and thoughtful digital experiences.'}
           </p>
+        </section>
+      ) : pathname === '/about' ? (
+        <section className="about-page mx-auto min-h-[75vh] max-w-5xl py-20">
+          <div className="about-heading max-w-3xl">
+            <p className="eyebrow mb-5">{about.eyebrow[language]}</p>
+            <h1 className="max-w-3xl text-5xl font-bold tracking-tight sm:text-7xl">{about.title[language]}</h1>
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300">{about.intro[language]}</p>
+          </div>
+          <div className="about-facts mt-16 grid gap-4 sm:grid-cols-3">
+            {about.facts.map((fact) => (
+              <article className="fact-card" key={fact.label[language]}>
+                <p className="fact-label">{fact.label[language]}</p>
+                <p className="fact-value">{fact.value[language]}</p>
+              </article>
+            ))}
+          </div>
+          <div className="about-note mt-12">
+            <span className="about-note-mark" aria-hidden="true">✦</span>
+            <p>{isChinese ? '相信好的軟體，應該讓複雜的事情變得更簡單。' : 'I believe good software makes complex things feel a little simpler.'}</p>
+          </div>
         </section>
       ) : (
       <section className="hero mx-auto grid min-h-[75vh] max-w-5xl items-center gap-12 py-20 lg:grid-cols-[1fr_280px]">
