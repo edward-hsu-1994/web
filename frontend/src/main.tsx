@@ -360,12 +360,18 @@ function App() {
           </p>
         </section>
       ) : pathname === '/about' ? (
-        <section className="about-page mx-auto min-h-[75vh] max-w-5xl py-16 sm:py-20">
-          <div className="about-heading max-w-3xl">
-            <p className="eyebrow mb-5">{about.eyebrow[language]}</p>
-            <h1 className="max-w-3xl text-5xl font-bold tracking-tight sm:text-7xl">{about.title[language]}</h1>
+        <section className="about-page mx-auto min-h-[75vh] max-w-5xl pt-16 pb-0 sm:pt-20">
+          <div className="about-header grid items-start gap-8 lg:grid-cols-[1fr_280px]">
+            <div className="about-heading max-w-3xl">
+              <p className="eyebrow mb-5">{about.eyebrow[language]}</p>
+              <h1 className="max-w-3xl text-5xl font-bold tracking-tight sm:text-7xl">{about.title[language]}</h1>
+            </div>
+            <a className="about-photo-card" href="https://www.linkedin.com/in/edwardhsu1994/" target="_blank" rel="noreferrer" aria-label="View Edward Hsu's LinkedIn profile">
+              <img src={home.hero.photo.imageUrl} alt={content.name} />
+              <span>Edward Hsu <span aria-hidden="true">↗</span></span>
+            </a>
           </div>
-          <div className="about-wheel-layout mt-14 grid items-center gap-10 lg:grid-cols-[1fr_250px] lg:gap-20" onWheel={handleAboutWheel}>
+          <div className="about-wheel-layout mt-[20px] grid items-center gap-10 lg:grid-cols-[1fr_250px] lg:gap-20" onWheel={handleAboutWheel}>
             <div
               className="option-wheel lg:order-2"
               role="tablist"

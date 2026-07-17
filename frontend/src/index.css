@@ -225,6 +225,9 @@ a {
 }
 .avatar-card:hover img { transform: rotate(2deg) scale(1.03); }
 .about-heading { animation: rise-in 700ms 180ms ease-out both; }
+.about-photo-card { display: flex; flex-direction: column; gap: 0.7rem; align-items: center; color: #94a3b8; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; animation: avatar-in 900ms 280ms cubic-bezier(.2,.8,.2,1) both; }
+.about-photo-card img { width: 15rem; height: 15rem; border: 1px solid rgba(103, 232, 249, 0.45); border-radius: 2rem; object-fit: cover; box-shadow: 0 0 0 0.75rem rgba(34, 211, 238, 0.05), 0 2rem 5rem rgba(0, 0, 0, 0.35); transition: transform 180ms ease; }
+.about-photo-card:hover img { transform: rotate(2deg) scale(1.04); }
 .about-facts { animation: rise-in 700ms 360ms ease-out both; }
 .fact-card {
   min-height: 8rem;
