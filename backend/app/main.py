@@ -70,15 +70,93 @@ def get_navigation() -> dict[str, object]:
 def get_about() -> dict[str, object]:
     return {
         "eyebrow": {"en-US": "A little more about me", "zh-TW": "多認識我一點"},
-        "title": {"en-US": "I turn curious ideas into useful things.", "zh-TW": "我把好奇的想法，變成實用的作品。"},
+        "title": {"en-US": "I turn curious ideas into useful things.", "zh-TW": "好奇心，是我前進的方向。"},
         "intro": {
-            "en-US": "I'm Edward, a software developer who enjoys connecting thoughtful design with dependable engineering. I care about the details that make a product feel clear, calm, and genuinely helpful.",
-            "zh-TW": "我是 Edward，一名喜歡把細膩設計與可靠工程結合在一起的軟體開發者。我在意那些讓產品變得清楚、舒服，而且真正有幫助的細節。",
+            "en-US": "I'm Edward, a backend engineer focused on AI Agents, AI-powered applications, and reliable Web APIs.",
+            "zh-TW": "我是 Edward，一名專注於 AI Agent、AI 應用與可靠 Web API 開發的後端工程師。",
         },
         "facts": [
-            {"label": {"en-US": "Focus", "zh-TW": "專注領域"}, "value": {"en-US": "Product-minded engineering", "zh-TW": "以產品思維打造工程"}},
+            {"label": {"en-US": "Role", "zh-TW": "角色"}, "value": {"en-US": "Backend Engineer", "zh-TW": "後端工程師"}},
+            {"label": {"en-US": "Focus", "zh-TW": "專注領域"}, "value": {"en-US": "AI Agents · Web APIs", "zh-TW": "AI Agent · Web API"}},
             {"label": {"en-US": "Based in", "zh-TW": "所在位置"}, "value": {"en-US": "Taiwan · UTC+8", "zh-TW": "台灣 · UTC+8"}},
-            {"label": {"en-US": "Currently learning", "zh-TW": "正在探索"}, "value": {"en-US": "Better ways to build for people", "zh-TW": "更貼近人的創作方式"}},
+        ],
+        "sections": [
+            {
+                "id": "profile",
+                "label": {"en-US": "Profile", "zh-TW": "個人簡介"},
+                "kicker": {"en-US": "01 / Profile", "zh-TW": "01 / 個人簡介"},
+                "title": {"en-US": "Turning ideas into dependable systems.", "zh-TW": "用工程，讓想法落地。"},
+                "description": {
+                    "en-US": "I'm Edward, a backend engineer focused on building AI Agents, AI-powered applications, and reliable Web APIs. I enjoy turning complex ideas into useful, maintainable products.",
+                    "zh-TW": "我是 Edward，一名專注於 AI Agent、AI 應用與可靠 Web API 開發的後端工程師。我喜歡把複雜的想法，轉化成實用且容易維護的產品。",
+                },
+                "items": [],
+            },
+            {
+                "id": "experience",
+                "label": {"en-US": "Experience", "zh-TW": "工作經歷"},
+                "kicker": {"en-US": "02 / Experience", "zh-TW": "02 / 工作經歷"},
+                "title": {"en-US": "Building products from the inside out.", "zh-TW": "從工程核心，打造好用的產品。"},
+                "description": {
+                    "en-US": "As a backend engineer, I develop AI Agents and related applications, while designing and implementing Web APIs.",
+                    "zh-TW": "目前主要負責 AI Agent 與相關應用開發，同時設計與實作 Web API。",
+                },
+                "items": [],
+                "jobs": [
+                    {
+                        "company": {"en-US": "Trend Micro", "zh-TW": "趨勢科技股份有限公司 (Trend Micro)"},
+                        "role": {"en-US": "Senior Engineer", "zh-TW": "資深工程師"},
+                        "period": {"en-US": "Jan 2021 — Present", "zh-TW": "2021/01 — 至今"},
+                        "responsibilities": {"en-US": "AI Agent development · Web API development", "zh-TW": "AI Agent 開發 · Web API 開發"},
+                    },
+                    {
+                        "company": {"en-US": "Hamasen Technology Co., Ltd.", "zh-TW": "哈瑪星科技股份有限公司"},
+                        "role": {"en-US": "Senior Engineer", "zh-TW": "資深工程師"},
+                        "period": {"en-US": "Oct 2017 — Dec 2020", "zh-TW": "2017/10 — 2020/12"},
+                        "responsibilities": {"en-US": "Web API development", "zh-TW": "Web API 開發"},
+                    },
+                ],
+            },
+            {
+                "id": "education",
+                "label": {"en-US": "Education", "zh-TW": "學歷"},
+                "kicker": {"en-US": "03 / Education", "zh-TW": "03 / 學歷"},
+                "title": {"en-US": "Always learning, always shipping.", "zh-TW": "持續學習，也持續做出成果。"},
+                "description": {
+                    "en-US": "My education gave me a foundation in structured thinking, while hands-on projects taught me how to learn quickly and make ideas tangible.",
+                    "zh-TW": "學習讓我建立結構化思考的基礎，而實作專案則教會我快速學習，並把想法落地。",
+                },
+                "items": [
+                ],
+                "education": [
+                    {
+                        "institution": {"en-US": "National Kaohsiung First University of Science and Technology", "zh-TW": "國立高雄第一科技大學資訊管理系"},
+                        "degree": {"en-US": "Bachelor's Degree", "zh-TW": "學士"},
+                        "period": {"en-US": "2012 — 2016", "zh-TW": "2012 — 2016"},
+                    },
+                    {
+                        "institution": {"en-US": "National Tson Wen Home Economics & Commercial Vocational High School", "zh-TW": "國立曾文家事商業職業學校資料處理科"},
+                        "degree": {"en-US": "Department of Data Processing", "zh-TW": "資料處理科"},
+                        "period": {"en-US": "2009 — 2012", "zh-TW": "2009 — 2012"},
+                    },
+                ],
+            },
+            {
+                "id": "skills",
+                "label": {"en-US": "Skills", "zh-TW": "技術能力"},
+                "kicker": {"en-US": "04 / Skills", "zh-TW": "04 / 技術能力"},
+                "title": {"en-US": "From AI Agents to cloud-native systems.", "zh-TW": "從 AI Agent 到雲原生架構。"},
+                "description": {
+                    "en-US": "",
+                    "zh-TW": "",
+                },
+                "items": [
+                    {"label": {"en-US": "AI / Agent", "zh-TW": "AI／Agent"}, "value": {"en-US": "A2A · LangGraph · AG-UI", "zh-TW": "A2A · LangGraph · AG-UI"}},
+                    {"label": {"en-US": "Backend", "zh-TW": "後端"}, "value": {"en-US": "FastAPI (Python) · ASP.NET (C#) · Fiber (Go)", "zh-TW": "FastAPI (Python) · ASP.NET (C#) · Fiber (Go)"}},
+                    {"label": {"en-US": "Frontend / Client", "zh-TW": "前端／Client"}, "value": {"en-US": "React · Angular · Swift", "zh-TW": "React · Angular · Swift"}},
+                    {"label": {"en-US": "Data / Infrastructure", "zh-TW": "資料／基礎架構"}, "value": {"en-US": "PostgreSQL · Docker · Kubernetes · Helm · Git", "zh-TW": "PostgreSQL · Docker · K8s · Helm · Git"}},
+                ],
+            },
         ],
     }
 
