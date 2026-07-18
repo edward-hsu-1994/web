@@ -104,6 +104,12 @@ type LifeRecords = {
   items: LifePhoto[]
 }
 
+function getLifeMasonryColumnCount() {
+  if (typeof window === 'undefined' || window.innerWidth < 640) return 1
+  if (window.innerWidth < 900) return 2
+  return 3
+}
+
 function App() {
   const cursorGlowRef = useRef<HTMLDivElement>(null)
   const initialTypingRef = useRef(true)
@@ -117,9 +123,14 @@ function App() {
   const navigation = navigationData as Navigation
   const about = aboutData as About
   const lifePhotos = [...(lifeRecordsData as LifeRecords).items].sort((a, b) => {
-    const dateA = a.date.value ?? ''
-    const dateB = b.date.value ?? ''
-    return dateB.localeCompare(dateA)
+    const dateA = a.date.value ? Date.parse(`${a.date.value}T00:00:00`) : Number.NEGATIVE_INFINITY
+    const dateB = b.date.value ? Date.parse(`${b.date.value}T00:00:00`) : Number.NEGATIVE_INFINITY
+    return dateB - dateA
+  })
+  const [lifeMasonryColumnCount, setLifeMasonryColumnCount] = useState(getLifeMasonryColumnCount)
+  const lifeMasonryColumns = Array.from({ length: lifeMasonryColumnCount }, () => [] as Array<{ photo: LifePhoto; index: number }>)
+  lifePhotos.forEach((photo, index) => {
+    lifeMasonryColumns[index % lifeMasonryColumnCount].push({ photo, index })
   })
   const [aboutSectionIndex, setAboutSectionIndex] = useState(0)
   const [experienceIndex, setExperienceIndex] = useState(0)
@@ -132,6 +143,12 @@ function App() {
   const navigationItems = navigation?.items ?? []
   const [typedGreeting, setTypedGreeting] = useState('')
   const [typedName, setTypedName] = useState('')
+
+  useEffect(() => {
+    const handleResize = () => setLifeMasonryColumnCount(getLifeMasonryColumnCount())
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
   const [typedIntro, setTypedIntro] = useState('')
   const [typingStage, setTypingStage] = useState<TypingStage>('waiting')
 
@@ -386,23 +403,27 @@ function App() {
             </p>
           </div>
           <div className="life-masonry mt-14" aria-label={isChinese ? '生活照片' : 'Life photos'}>
-            {lifePhotos.map((photo, index) => (
-              <button
-                className="life-photo"
-                type="button"
-                onClick={() => setSelectedLifePhoto(photo)}
-                aria-label={isChinese ? `查看${photo.place[language]}照片` : `View photo from ${photo.place[language]}`}
-                key={photo.src}
-              >
-                <img src={photo.src} alt="" loading={index < 3 ? 'eager' : 'lazy'} />
-                <span className="life-photo-overlay">
-                  <span>
-                    <strong>{photo.place[language]}</strong>
-                    <small>{photo.date[language]}</small>
-                  </span>
-                  <span className="life-photo-arrow" aria-hidden="true">↗</span>
-                </span>
-              </button>
+            {lifeMasonryColumns.map((column, columnIndex) => (
+              <div className="life-masonry-column" key={columnIndex}>
+                {column.map(({ photo, index }) => (
+                  <button
+                    className="life-photo"
+                    type="button"
+                    onClick={() => setSelectedLifePhoto(photo)}
+                    aria-label={isChinese ? `查看${photo.place[language]}照片` : `View photo from ${photo.place[language]}`}
+                    key={photo.src}
+                  >
+                    <img src={photo.src} alt="" loading={index < 3 ? 'eager' : 'lazy'} />
+                    <span className="life-photo-overlay">
+                      <span>
+                        <strong>{photo.place[language]}</strong>
+                        <small>{photo.date[language]}</small>
+                      </span>
+                      <span className="life-photo-arrow" aria-hidden="true">↗</span>
+                    </span>
+                  </button>
+                ))}
+              </div>
             ))}
           </div>
         </section>

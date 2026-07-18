@@ -322,13 +322,13 @@
     {
       "src": "/assets/life-records/IMG_3085.jpg",
       "place": { "en-US": "Dingjing Hall, Lin Family Mansion and Garden, New Taipei", "zh-TW": "新北林家花園定靜堂" },
-      "date": { "en-US": "May 17, 2026", "zh-TW": "2026 年 5 月 17 日", "value": "2026-05-17" },
+      "date": { "en-US": "April 19, 2026", "zh-TW": "2026 年 4 月 19 日", "value": "2026-04-19" },
       "l10n_supported_fields": ["place", "date"]
     },
     {
       "src": "/assets/life-records/IMG_3242.jpg",
       "place": { "en-US": "Former British Consular Residence, New Taipei", "zh-TW": "新北前清英國領事官邸" },
-      "date": { "en-US": "May 17, 2026", "zh-TW": "2026 年 5 月 17 日", "value": "2026-05-17" },
+      "date": { "en-US": "April 25, 2026", "zh-TW": "2026 年 4 月 25 日", "value": "2026-04-25" },
       "l10n_supported_fields": ["place", "date"]
     },
     {
@@ -430,7 +430,7 @@
     {
       "src": "/assets/life-records/DSC01573.JPG",
       "place": { "en-US": "Lin Tai-an Ancient House, Taipei", "zh-TW": "台北林泰安古厝" },
-      "date": { "en-US": "May 16, 2025", "zh-TW": "2025 年 5 月 16 日", "value": "2025-05-16" },
+      "date": { "en-US": "April 19, 2026", "zh-TW": "2026 年 4 月 19 日", "value": "2026-04-19" },
       "l10n_supported_fields": ["place", "date"]
     },
     {
@@ -460,7 +460,7 @@
     {
       "src": "/assets/life-records/DSC01881.JPG",
       "place": { "en-US": "Tamsui Bridge, New Taipei", "zh-TW": "新北淡江大橋" },
-      "date": { "en-US": "May 17, 2026", "zh-TW": "2026 年 5 月 17 日", "value": "2026-05-17" },
+      "date": { "en-US": "May 30, 2026", "zh-TW": "2026 年 5 月 30 日", "value": "2026-05-30" },
       "l10n_supported_fields": ["place", "date"]
     },
     {
@@ -508,7 +508,7 @@
     {
       "src": "/assets/life-records/IMG_3276.jpg",
       "place": { "en-US": "Fort San Domingo, Tamsui, New Taipei", "zh-TW": "新北淡水紅毛城" },
-      "date": { "en-US": "May 17, 2026", "zh-TW": "2026 年 5 月 17 日", "value": "2026-05-17" },
+      "date": { "en-US": "April 25, 2026", "zh-TW": "2026 年 4 月 25 日", "value": "2026-04-25" },
       "l10n_supported_fields": ["place", "date"]
     }
   ]
