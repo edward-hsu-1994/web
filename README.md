@@ -25,6 +25,32 @@ The frontend imports its content directly from JSON files in `frontend/api/`:
 
 There are no runtime API requests in the frontend. Updating a JSON file updates the corresponding page content after Vite reloads.
 
+### Life record image guidelines
+
+Images in `frontend/public/assets/life-records/` should follow these size guidelines:
+
+- Maximum height: 720px
+- Preserve the original aspect ratio when resizing
+- JPEG quality: 80%
+- Remove existing EXIF metadata and set the author to `Edward Hsu`
+- Preserve each image's original EXIF `Orientation` value
+
+On macOS, resize oversized images with `sips`:
+
+```bash
+find frontend/public/assets/life-records -type f \( -iname '*.jpg' -o -iname '*.jpeg' \) -print0 |
+while IFS= read -r -d '' file; do
+  height=$(sips -g pixelHeight "$file" | awk '/pixelHeight:/ {print $2}')
+  if [ "$height" -gt 720 ]; then
+    sips --resampleHeight 720 -s formatOptions 80 "$file"
+  fi
+  exiftool -EXIF:all= -IPTC:all= -XMP:all= -tagsFromFile @ -Orientation -Artist="Edward Hsu" -overwrite_original "$file"
+done
+```
+
+The command requires [ExifTool](https://exiftool.org/), which can be installed on macOS with `brew install exiftool`.
+The metadata cleanup targets EXIF, IPTC, and XMP while preserving the image's ICC color profile.
+
 ### Page status markers
 
 When a page is still being prepared, place a `page-status-badge` next to its title in the page header. The marker must include localized labels for both supported languages:
