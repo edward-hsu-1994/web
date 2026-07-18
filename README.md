@@ -44,7 +44,7 @@ To display the site, configure the repository's Pages settings to deploy from th
 https://edward-hsu-1994.github.io/web/
 ```
 
-The production build uses `/web/` as its base path and includes a `404.html` SPA fallback so client-side routes continue to work on GitHub Pages.
+The production build uses `/` as its base path for the custom domain and includes a `404.html` SPA fallback so client-side routes continue to work on GitHub Pages.
 
 ## Localization
 
