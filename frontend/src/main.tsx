@@ -9,6 +9,7 @@ import './index.css'
 type Language = 'en-US' | 'zh-TW'
 type TypingStage = 'waiting' | 'greeting' | 'name' | 'intro' | 'done'
 const EMPTY_IME_ANIME: Record<string, string> = {}
+const LIFE_PAGE_SIZE = 20
 const APP_BASE_PATH = import.meta.env.BASE_URL.replace(/\/$/, '')
 const toAppPath = () => {
   const rawPath = window.location.pathname
@@ -127,9 +128,12 @@ function App() {
     const dateB = b.date.value ? Date.parse(`${b.date.value}T00:00:00`) : Number.NEGATIVE_INFINITY
     return dateB - dateA
   })
+  const [lifeVisibleCount, setLifeVisibleCount] = useState(LIFE_PAGE_SIZE)
   const [lifeMasonryColumnCount, setLifeMasonryColumnCount] = useState(getLifeMasonryColumnCount)
+  const lifeLoadMoreRef = useRef<HTMLDivElement>(null)
+  const visibleLifePhotos = lifePhotos.slice(0, lifeVisibleCount)
   const lifeMasonryColumns = Array.from({ length: lifeMasonryColumnCount }, () => [] as Array<{ photo: LifePhoto; index: number }>)
-  lifePhotos.forEach((photo, index) => {
+  visibleLifePhotos.forEach((photo, index) => {
     lifeMasonryColumns[index % lifeMasonryColumnCount].push({ photo, index })
   })
   const [aboutSectionIndex, setAboutSectionIndex] = useState(0)
@@ -149,6 +153,26 @@ function App() {
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
+  useEffect(() => {
+    if (pathname !== '/life-records') return undefined
+    setLifeVisibleCount(LIFE_PAGE_SIZE)
+    return undefined
+  }, [pathname])
+
+  useEffect(() => {
+    if (pathname !== '/life-records' || lifeVisibleCount >= lifePhotos.length) return undefined
+    const sentinel = lifeLoadMoreRef.current
+    if (!sentinel) return undefined
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return
+      setLifeVisibleCount((currentCount) => Math.min(currentCount + LIFE_PAGE_SIZE, lifePhotos.length))
+    }, { rootMargin: '320px 0px' })
+
+    observer.observe(sentinel)
+    return () => observer.disconnect()
+  }, [pathname, lifeVisibleCount, lifePhotos.length])
   const [typedIntro, setTypedIntro] = useState('')
   const [typingStage, setTypingStage] = useState<TypingStage>('waiting')
 
@@ -426,6 +450,9 @@ function App() {
               </div>
             ))}
           </div>
+          {lifeVisibleCount < lifePhotos.length && (
+            <div ref={lifeLoadMoreRef} className="life-load-more-sentinel" aria-hidden="true" />
+          )}
         </section>
       ) : pathname === '/about' ? (
         <section className="about-page mx-auto min-h-[75vh] max-w-5xl pt-16 pb-0 sm:pt-20">
