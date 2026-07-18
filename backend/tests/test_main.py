@@ -10,3 +10,8 @@ def test_health_check() -> None:
     assert response.status_code == 200
     assert response.json() == {"status": "ok"}
 
+
+def test_about_declares_localized_fields() -> None:
+    response = client.get("/api/about")
+    assert response.status_code == 200
+    assert response.json()["l10n_supported_fields"] == ["eyebrow", "title", "intro", "facts", "sections"]

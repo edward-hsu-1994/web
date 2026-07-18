@@ -55,6 +55,7 @@ type Navigation = {
   items: NavigationItem[]
 }
 type About = {
+  l10n_supported_fields: string[]
   eyebrow: Record<Language, string>
   title: Record<Language, string>
   intro: Record<Language, string>

@@ -78,6 +78,7 @@ def get_navigation() -> dict[str, object]:
 @app.get("/api/about", tags=["about"])
 def get_about() -> dict[str, object]:
     return {
+        "l10n_supported_fields": ["eyebrow", "title", "intro", "facts", "sections"],
         "eyebrow": {"en-US": "A little more about me", "zh-TW": "多認識我一點"},
         "title": {"en-US": "I turn curious ideas into useful things.", "zh-TW": "好奇心，是我前進的方向。"},
         "intro": {
