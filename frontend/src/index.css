@@ -51,7 +51,7 @@ a {
 
 .site-shell::before,
 .site-shell::after {
-  position: absolute;
+  position: fixed;
   z-index: 0;
   border: 2px solid rgba(103, 232, 249, 0.12);
   border-radius: 999px;
