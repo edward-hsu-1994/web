@@ -18,11 +18,22 @@ The frontend imports its content directly from JSON files in `frontend/api/`:
 
 - `home.json` — homepage hero content and buttons
 - `about.json` — profile, experience, skills, and education
+- `portfolio.json` — localized portfolio project metadata
 - `navigation.json` — site navigation and localized labels
 - `life-records.json` — localized life photo metadata
 - `health.json` — reserved health status data
 
 There are no runtime API requests in the frontend. Updating a JSON file updates the corresponding page content after Vite reloads.
+
+### Page status markers
+
+When a page is still being prepared, place a `page-status-badge` next to its title in the page header. The marker must include localized labels for both supported languages:
+
+```tsx
+<span className="page-status-badge">{isChinese ? '建置中' : 'In progress'}</span>
+```
+
+Remove the marker once the page is ready for regular use.
 
 ## Commands
 

@@ -4,6 +4,7 @@ import aboutData from '../api/about.json'
 import homeData from '../api/home.json'
 import lifeRecordsData from '../api/life-records.json'
 import navigationData from '../api/navigation.json'
+import portfolioData from '../api/portfolio.json'
 import './index.css'
 
 type Language = 'en-US' | 'zh-TW'
@@ -104,6 +105,20 @@ type LifeRecords = {
   l10n_supported_fields: string[]
   items: LifePhoto[]
 }
+type PortfolioProject = {
+  id: string
+  title: Record<Language, string>
+  description: Record<Language, string>
+  about: Record<Language, string>
+  tags: string[]
+  link: string
+  link_label: Record<Language, string>
+  l10n_supported_fields?: string[]
+}
+type Portfolio = {
+  l10n_supported_fields: string[]
+  items: PortfolioProject[]
+}
 
 function getLifeMasonryColumnCount() {
   if (typeof window === 'undefined' || window.innerWidth < 640) return 1
@@ -123,6 +138,7 @@ function App() {
   const home = homeData as Home
   const navigation = navigationData as Navigation
   const about = aboutData as About
+  const portfolio = portfolioData as Portfolio
   const lifePhotos = [...(lifeRecordsData as LifeRecords).items].sort((a, b) => {
     const dateA = a.date.value ? Date.parse(`${a.date.value}T00:00:00`) : Number.NEGATIVE_INFINITY
     const dateB = b.date.value ? Date.parse(`${b.date.value}T00:00:00`) : Number.NEGATIVE_INFINITY
@@ -407,11 +423,29 @@ function App() {
             <h1 className="max-w-3xl text-5xl font-bold tracking-tight sm:text-7xl">
               {isChinese ? '作品集' : 'Selected work'}
             </h1>
-            <span className="page-status-badge">{isChinese ? '建置中' : 'In progress'}</span>
           </div>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300">
             {isChinese ? '這裡將展示我的作品與實作專案。' : 'A collection of projects, experiments, and thoughtful digital experiences.'}
           </p>
+          <div className="portfolio-grid mt-14">
+            {portfolio.items.map((project) => (
+              <article className="portfolio-card" key={project.id}>
+                <div className="portfolio-card-topline">
+                  <span className="eyebrow">Project</span>
+                  <span className="portfolio-card-index">01</span>
+                </div>
+                <h2>{project.title[language]}</h2>
+                <p className="portfolio-card-description">{project.description[language]}</p>
+                <p className="portfolio-card-about">{project.about[language]}</p>
+                <div className="portfolio-tags">
+                  {project.tags.map((tag) => <span key={tag}>{tag}</span>)}
+                </div>
+                <a className="portfolio-card-link" href={project.link} target="_blank" rel="noreferrer">
+                  {project.link_label[language]} <span aria-hidden="true">↗</span>
+                </a>
+              </article>
+            ))}
+          </div>
         </section>
       ) : pathname === '/life-records' ? (
         <section className="life-page mx-auto min-h-[75vh] max-w-5xl py-16 sm:py-20">

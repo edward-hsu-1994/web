@@ -1,0 +1,117 @@
+{
+  "l10n_supported_fields": ["items"],
+  "items": [
+    {
+      "id": "webp-wrapper",
+      "title": { "en-US": "WebPWrapper", "zh-TW": "WebPWrapper" },
+      "description": {
+        "en-US": "A .NET wrapper for WebP CLI with a simple command-line parameter builder.",
+        "zh-TW": "WebP CLI 的 .NET 包裝函式庫，提供簡單易用的 CLI 參數建構器。"
+      },
+      "about": {
+        "en-US": "Makes WebP easier to use during development by providing a convenient wrapper around WebP CLI.",
+        "zh-TW": "透過封裝 WebP CLI，讓開發過程中使用 WebP 更加簡單方便。"
+      },
+      "tags": [".NET", "WebP", "CLI", "Unit Test"],
+      "link": "https://github.com/edward-hsu-1994/WebPWrapper",
+      "link_label": { "en-US": "View on GitHub", "zh-TW": "查看 GitHub 專案" },
+      "l10n_supported_fields": ["title", "description", "about", "link_label"]
+    },
+    {
+      "id": "go-fiber-template",
+      "title": { "en-US": "go-fiber-template", "zh-TW": "go-fiber-template" },
+      "description": {
+        "en-US": "A quick-start template for building Web APIs with Fiber, Wire, and Swagger.",
+        "zh-TW": "使用 Fiber、Wire 與 Swagger 建立 Web API 的快速起始範本。"
+      },
+      "about": {
+        "en-US": "Provides a structured foundation for developing Go Web APIs with dependency injection and generated API documentation.",
+        "zh-TW": "提供具備依賴注入與自動產生 API 文件能力的 Go Web API 開發基礎。"
+      },
+      "tags": ["Go", "Fiber", "Wire", "Swagger"],
+      "link": "https://github.com/edward-hsu-1994/go-fiber-template",
+      "link_label": { "en-US": "View on GitHub", "zh-TW": "查看 GitHub 專案" },
+      "l10n_supported_fields": ["title", "description", "about", "link_label"]
+    },
+    {
+      "id": "file-sync",
+      "title": { "en-US": "FileSync", "zh-TW": "FileSync" },
+      "description": {
+        "en-US": "A utility for synchronizing files between locations.",
+        "zh-TW": "用於同步不同位置檔案的工具。"
+      },
+      "about": {
+        "en-US": "A focused project for making file synchronization workflows easier to automate and maintain.",
+        "zh-TW": "專注於讓檔案同步流程更容易自動化與維護。"
+      },
+      "tags": ["File Sync", "Automation", "Utility"],
+      "link": "https://github.com/edward-hsu-1994/FileSync",
+      "link_label": { "en-US": "View on GitHub", "zh-TW": "查看 GitHub 專案" },
+      "l10n_supported_fields": ["title", "description", "about", "link_label"]
+    },
+    {
+      "id": "env-launcher",
+      "title": { "en-US": "EnvLauncher", "zh-TW": "EnvLauncher" },
+      "description": {
+        "en-US": "A launcher for starting applications with environment-specific settings.",
+        "zh-TW": "使用環境專屬設定啟動應用程式的工具。"
+      },
+      "about": {
+        "en-US": "Designed to simplify application launching across different development and runtime environments.",
+        "zh-TW": "用於簡化不同開發與執行環境中的應用程式啟動流程。"
+      },
+      "tags": ["Launcher", "Environment", "Automation"],
+      "link": "https://github.com/edward-hsu-1994/EnvLauncher",
+      "link_label": { "en-US": "View on GitHub", "zh-TW": "查看 GitHub 專案" },
+      "l10n_supported_fields": ["title", "description", "about", "link_label"]
+    },
+    {
+      "id": "community-powertoys-run-plugin-askllm",
+      "title": { "en-US": "PowerToys Run Plugin: AskLLM", "zh-TW": "PowerToys Run 外掛：AskLLM" },
+      "description": {
+        "en-US": "A Community PowerToys Run plugin for asking an LLM directly from the launcher.",
+        "zh-TW": "可在 PowerToys Run 啟動器中直接詢問 LLM 的社群外掛。"
+      },
+      "about": {
+        "en-US": "Brings an LLM-powered question-and-answer workflow into the PowerToys Run experience.",
+        "zh-TW": "將以 LLM 驅動的問答流程帶入 PowerToys Run 使用體驗。"
+      },
+      "tags": ["C#", "PowerToys Run", "LLM", "Plugin"],
+      "link": "https://github.com/edward-hsu-1994/Community.PowerToys.Run.Plugin.AskLLM",
+      "link_label": { "en-US": "View on GitHub", "zh-TW": "查看 GitHub 專案" },
+      "l10n_supported_fields": ["title", "description", "about", "link_label"]
+    },
+    {
+      "id": "yt-video-note",
+      "title": { "en-US": "yt-video-note", "zh-TW": "yt-video-note" },
+      "description": {
+        "en-US": "A tool for taking and organizing notes while watching YouTube videos.",
+        "zh-TW": "用於觀看 YouTube 影片時記錄與整理筆記的工具。"
+      },
+      "about": {
+        "en-US": "Designed to make video-based learning and reference easier to capture, organize, and revisit.",
+        "zh-TW": "讓以影片為主的學習與參考內容更容易記錄、整理與回顧。"
+      },
+      "tags": ["YouTube", "Notes", "Productivity"],
+      "link": "https://github.com/edward-hsu-1994/yt-video-note",
+      "link_label": { "en-US": "View on GitHub", "zh-TW": "查看 GitHub 專案" },
+      "l10n_supported_fields": ["title", "description", "about", "link_label"]
+    },
+    {
+      "id": "rp-pico-controller",
+      "title": { "en-US": "RP-PicoController", "zh-TW": "RP-PicoController" },
+      "description": {
+        "en-US": "A controller project built around the Raspberry Pi Pico platform.",
+        "zh-TW": "以 Raspberry Pi Pico 平台為核心的控制器專案。"
+      },
+      "about": {
+        "en-US": "Explores embedded control workflows and hardware interaction with a compact microcontroller platform.",
+        "zh-TW": "探索以精巧微控制器平台實現嵌入式控制流程與硬體互動。"
+      },
+      "tags": ["Raspberry Pi Pico", "Embedded", "Controller"],
+      "link": "https://github.com/edward-hsu-1994/RP-PicoController",
+      "link_label": { "en-US": "View on GitHub", "zh-TW": "查看 GitHub 專案" },
+      "l10n_supported_fields": ["title", "description", "about", "link_label"]
+    }
+  ]
+}
