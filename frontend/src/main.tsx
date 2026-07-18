@@ -126,6 +126,12 @@ function getLifeMasonryColumnCount() {
   return 3
 }
 
+const allLifePhotos = [...(lifeRecordsData as LifeRecords).items].sort((a, b) => {
+  const dateA = a.date.value ? Date.parse(`${a.date.value}T00:00:00`) : Number.NEGATIVE_INFINITY
+  const dateB = b.date.value ? Date.parse(`${b.date.value}T00:00:00`) : Number.NEGATIVE_INFINITY
+  return dateB - dateA
+})
+
 function App() {
   const cursorGlowRef = useRef<HTMLDivElement>(null)
   const initialTypingRef = useRef(true)
@@ -139,17 +145,11 @@ function App() {
   const navigation = navigationData as Navigation
   const about = aboutData as About
   const portfolio = portfolioData as Portfolio
-  const lifePhotos = [...(lifeRecordsData as LifeRecords).items].sort((a, b) => {
-    const dateA = a.date.value ? Date.parse(`${a.date.value}T00:00:00`) : Number.NEGATIVE_INFINITY
-    const dateB = b.date.value ? Date.parse(`${b.date.value}T00:00:00`) : Number.NEGATIVE_INFINITY
-    return dateB - dateA
-  })
-  const [lifeVisibleCount, setLifeVisibleCount] = useState(LIFE_PAGE_SIZE)
+  const [loadedLifePhotos, setLoadedLifePhotos] = useState(() => allLifePhotos.slice(0, LIFE_PAGE_SIZE))
   const [lifeMasonryColumnCount, setLifeMasonryColumnCount] = useState(getLifeMasonryColumnCount)
   const lifeLoadMoreRef = useRef<HTMLDivElement>(null)
-  const visibleLifePhotos = lifePhotos.slice(0, lifeVisibleCount)
   const lifeMasonryColumns = Array.from({ length: lifeMasonryColumnCount }, () => [] as Array<{ photo: LifePhoto; index: number }>)
-  visibleLifePhotos.forEach((photo, index) => {
+  loadedLifePhotos.forEach((photo, index) => {
     lifeMasonryColumns[index % lifeMasonryColumnCount].push({ photo, index })
   })
   const [aboutSectionIndex, setAboutSectionIndex] = useState(0)
@@ -172,23 +172,26 @@ function App() {
 
   useEffect(() => {
     if (pathname !== '/life-records') return undefined
-    setLifeVisibleCount(LIFE_PAGE_SIZE)
+    setLoadedLifePhotos(allLifePhotos.slice(0, LIFE_PAGE_SIZE))
     return undefined
   }, [pathname])
 
   useEffect(() => {
-    if (pathname !== '/life-records' || lifeVisibleCount >= lifePhotos.length) return undefined
+    if (pathname !== '/life-records' || loadedLifePhotos.length >= allLifePhotos.length) return undefined
     const sentinel = lifeLoadMoreRef.current
     if (!sentinel) return undefined
 
     const observer = new IntersectionObserver(([entry]) => {
       if (!entry.isIntersecting) return
-      setLifeVisibleCount((currentCount) => Math.min(currentCount + LIFE_PAGE_SIZE, lifePhotos.length))
+      setLoadedLifePhotos((currentPhotos) => [
+        ...currentPhotos,
+        ...allLifePhotos.slice(currentPhotos.length, currentPhotos.length + LIFE_PAGE_SIZE),
+      ])
     }, { rootMargin: '320px 0px' })
 
     observer.observe(sentinel)
     return () => observer.disconnect()
-  }, [pathname, lifeVisibleCount, lifePhotos.length])
+  }, [pathname, loadedLifePhotos.length])
   const [typedIntro, setTypedIntro] = useState('')
   const [typingStage, setTypingStage] = useState<TypingStage>('waiting')
 
@@ -484,7 +487,7 @@ function App() {
               </div>
             ))}
           </div>
-          {lifeVisibleCount < lifePhotos.length && (
+          {loadedLifePhotos.length < allLifePhotos.length && (
             <div ref={lifeLoadMoreRef} className="life-load-more-sentinel" aria-hidden="true" />
           )}
         </section>
