@@ -468,7 +468,9 @@ function App() {
               <h1 className="max-w-3xl text-5xl font-bold tracking-tight sm:text-7xl">{about.title[language]}</h1>
             </div>
             <a className="about-photo-card" href="https://www.linkedin.com/in/edwardhsu1994/" target="_blank" rel="noreferrer" aria-label="View Edward Hsu's LinkedIn profile">
-              <img src={home.hero.photo.imageUrl} alt={content.name} />
+              <span className="border-glow-frame">
+                <img src={home.hero.photo.imageUrl} alt={content.name} />
+              </span>
               <span>Edward Hsu <span aria-hidden="true">↗</span></span>
             </a>
           </div>
@@ -617,7 +619,9 @@ function App() {
         </div>
 
         <a className="avatar-card" href="https://gravatar.com/edwardhsu1994" target="_blank" rel="noreferrer" aria-label="View Edward Hsu's Gravatar profile">
-          <img src={home.hero.photo.imageUrl} alt={content.name} />
+          <span className="border-glow-frame">
+            <img src={home.hero.photo.imageUrl} alt={content.name} />
+          </span>
           <span>Find me online <span aria-hidden="true">↗</span></span>
         </a>
       </section>
@@ -632,7 +636,9 @@ function App() {
         >
           <div className="life-modal-content" onClick={(event) => event.stopPropagation()}>
             <button className="life-modal-close" type="button" onClick={() => setSelectedLifePhoto(null)} aria-label={isChinese ? '關閉照片' : 'Close photo'}>
-              ×
+              <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+                <path d="M6 6l12 12M18 6L6 18" />
+              </svg>
             </button>
             <img src={selectedLifePhoto.src} alt={selectedLifePhoto.alt[language]} />
             <div className="life-modal-caption">
