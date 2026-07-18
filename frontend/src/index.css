@@ -248,14 +248,13 @@ a {
   border-radius: 1.85rem;
   object-fit: cover;
   box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.35);
-  transition: transform 180ms ease;
 }
-.avatar-card:hover img { transform: rotate(2deg) scale(1.03); }
+.avatar-card:hover .border-glow-frame { transform: rotate(2deg) scale(1.03); }
 .about-heading { animation: rise-in 700ms 180ms ease-out both; }
 .about-photo-card { display: flex; flex-direction: column; gap: 0.7rem; align-items: center; color: #94a3b8; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; animation: avatar-in 900ms 280ms cubic-bezier(.2,.8,.2,1) both; }
-.about-photo-card img { width: 15rem; height: 15rem; border: 0; border-radius: 1.85rem; object-fit: cover; box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.35); transition: transform 180ms ease; }
-.about-photo-card:hover img { transform: rotate(2deg) scale(1.04); }
-.border-glow-frame { position: relative; display: block; overflow: hidden; padding: 2px; border-radius: 2rem; background: #0f172a; box-shadow: 0 0 0 0.75rem rgba(34, 211, 238, 0.05), 0 0 1.8rem rgba(103, 232, 249, 0.18), 0 2rem 5rem rgba(0, 0, 0, 0.35); isolation: isolate; }
+.about-photo-card img { width: 15rem; height: 15rem; border: 0; border-radius: 1.85rem; object-fit: cover; box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.35); }
+.about-photo-card:hover .border-glow-frame { transform: rotate(2deg) scale(1.04); }
+.border-glow-frame { position: relative; display: block; overflow: hidden; padding: 2px; border-radius: 2rem; background: #0f172a; box-shadow: 0 0 0 0.75rem rgba(34, 211, 238, 0.05), 0 0 1.8rem rgba(103, 232, 249, 0.18), 0 2rem 5rem rgba(0, 0, 0, 0.35); isolation: isolate; transition: transform 180ms ease; }
 .border-glow-frame::before { position: absolute; z-index: 0; inset: -100%; background: conic-gradient(from 90deg, transparent 0deg, #67e8f9 72deg, #a78bfa 145deg, transparent 220deg, #c084fc 300deg, transparent 360deg); content: ''; animation: border-glow-spin 4s linear infinite; }
 .border-glow-frame img { position: relative; z-index: 1; }
 @keyframes border-glow-spin { to { transform: rotate(360deg); } }

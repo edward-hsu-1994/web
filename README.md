@@ -1,32 +1,29 @@
 # Personal Website
 
-A personal website monorepo with a React + Tailwind CSS frontend, a FastAPI backend, and a Docker Compose development environment.
+A personal website built with React, TypeScript, and Tailwind CSS. Content is stored as local JSON files in `frontend/api/`, so the project currently runs as a frontend-only application.
 
 ## Quick start
 
 ```bash
-cp .env.example .env
 make dev
 ```
 
 - Frontend: http://localhost:5173
-- API: http://localhost:8000
-- API docs: http://localhost:8000/docs
 
 ## Commands
 
 ```bash
-make install     # Install local development dependencies
-make dev         # Start the Docker Compose services
-make test        # Run backend tests
-make lint        # Run backend and frontend linters
-make build       # Build Docker images
-make down        # Stop the services
+make install     # Install frontend dependencies
+make dev         # Start the frontend development server
+make test        # Build the frontend
+make lint        # Run the frontend linter
+make build       # Build the frontend image
+make down        # Stop the frontend service
 ```
 
 ## Localization
 
-Localized API data uses locale keys such as `en-US` and `zh-TW`. The frontend uses `en-US` as its fallback locale.
+Localized content uses locale keys such as `en-US` and `zh-TW`. The frontend uses `en-US` as its fallback locale. Content is organized under `frontend/api/` using the former API names: `home.json`, `about.json`, `navigation.json`, and `health.json`.
 
 Objects and items that support localization declare their localized fields with `l10n_supported_fields`. For example, the home API uses `hero.l10n_supported_fields: ["content"]`, while each hero button uses `l10n_supported_fields: ["text"]`.
 
@@ -62,4 +59,4 @@ Objects and items that support localization declare their localized fields with 
 }
 ```
 
-The navigation API follows the same pattern. Its `items` array contains shared link metadata, while each item's `text` field stores the localized labels.
+The navigation data follows the same pattern. Its `items` array contains shared link metadata, while each item's `text` field stores the localized labels.

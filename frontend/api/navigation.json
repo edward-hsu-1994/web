@@ -1,0 +1,11 @@
+{
+  "l10n_supported_fields": ["items"],
+  "items": [
+    { "text": { "en-US": "Home", "zh-TW": "首頁" }, "type": "path", "path": "/", "l10n_supported_fields": ["text"] },
+    { "text": { "en-US": "About me", "zh-TW": "關於我" }, "type": "path", "path": "/about", "l10n_supported_fields": ["text"] },
+    { "text": { "en-US": "Portfolio", "zh-TW": "作品集" }, "type": "path", "path": "/portfolio", "l10n_supported_fields": ["text"] },
+    { "text": { "en-US": "Life records", "zh-TW": "生活記錄" }, "type": "path", "path": "/life-records", "l10n_supported_fields": ["text"] },
+    { "text": { "en-US": "GitHub", "zh-TW": "GitHub" }, "type": "link", "link": "https://github.com/edward-hsu-1994", "l10n_supported_fields": ["text"] },
+    { "text": "LinkedIn", "type": "link", "link": "https://www.linkedin.com/in/edwardhsu1994/" }
+  ]
+}

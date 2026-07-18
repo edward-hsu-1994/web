@@ -1,5 +1,8 @@
 import { Fragment, StrictMode, useEffect, useRef, useState, type CSSProperties, type KeyboardEvent as ReactKeyboardEvent, type MouseEvent as ReactMouseEvent, type WheelEvent as ReactWheelEvent } from 'react'
 import { createRoot } from 'react-dom/client'
+import aboutData from '../api/about.json'
+import homeData from '../api/home.json'
+import navigationData from '../api/navigation.json'
 import './index.css'
 
 type Language = 'en-US' | 'zh-TW'
@@ -149,9 +152,9 @@ function App() {
     if (savedLanguage === 'zh' || savedLanguage === 'zh-TW') return 'zh-TW'
     return 'en-US'
   })
-  const [home, setHome] = useState<Home | null>(null)
-  const [navigation, setNavigation] = useState<Navigation | null>(null)
-  const [about, setAbout] = useState<About | null>(null)
+  const home = homeData as Home
+  const navigation = navigationData as Navigation
+  const about = aboutData as About
   const [aboutSectionIndex, setAboutSectionIndex] = useState(0)
   const [experienceIndex, setExperienceIndex] = useState(0)
   const [educationIndex, setEducationIndex] = useState(0)
@@ -242,24 +245,6 @@ function App() {
   }, [content?.greeting, content?.name, content?.intro, imeAnime, language])
 
   useEffect(() => {
-    const apiUrl = import.meta.env.VITE_API_URL ?? 'http://localhost:8000'
-    fetch(`${apiUrl}/api/home`)
-      .then((response) => response.json())
-      .then((data: Home) => setHome(data))
-      .catch(() => undefined)
-
-    fetch(`${apiUrl}/api/navigation`)
-      .then((response) => response.json())
-      .then((data: Navigation) => setNavigation(data))
-      .catch(() => undefined)
-
-    fetch(`${apiUrl}/api/about`)
-      .then((response) => response.json())
-      .then((data: About) => setAbout(data))
-      .catch(() => undefined)
-  }, [])
-
-  useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
       cursorGlowRef.current?.style.setProperty('--cursor-x', `${event.clientX}px`)
       cursorGlowRef.current?.style.setProperty('--cursor-y', `${event.clientY}px`)
@@ -304,16 +289,6 @@ function App() {
     setExperienceIndex(0)
     setEducationIndex(0)
   }, [aboutSectionIndex])
-
-  if (!home || !navigation || !content || !about) {
-    return (
-      <main className="site-shell min-h-screen px-6 py-8 text-white sm:px-12 sm:py-12">
-        <div className="mx-auto flex min-h-[70vh] max-w-5xl items-center justify-center text-sm text-slate-400">
-          Loading...
-        </div>
-      </main>
-    )
-  }
 
   const navigateToPath = (event: ReactMouseEvent<HTMLAnchorElement>, path: string) => {
     event.preventDefault()
