@@ -9,7 +9,7 @@
   "facts": [
     { "label": { "en-US": "Role", "zh-TW": "角色" }, "value": { "en-US": "Backend Engineer", "zh-TW": "後端工程師" } },
     { "label": { "en-US": "Focus", "zh-TW": "專注領域" }, "value": { "en-US": "AI Agents · Web APIs", "zh-TW": "AI Agent · Web API" } },
-    { "label": { "en-US": "Based in", "zh-TW": "所在位置" }, "value": { "en-US": "Taiwan · UTC+8", "zh-TW": "台灣 · UTC+8" } }
+    { "label": { "en-US": "Based in", "zh-TW": "居住地" }, "value": { "en-US": "Taipei City, Taiwan", "zh-TW": "台北市，台灣" } }
   ],
   "sections": [
     {
