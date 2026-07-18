@@ -2,6 +2,7 @@ import { Fragment, StrictMode, useEffect, useRef, useState, type CSSProperties, 
 import { createRoot } from 'react-dom/client'
 import aboutData from '../api/about.json'
 import homeData from '../api/home.json'
+import lifeRecordsData from '../api/life-records.json'
 import navigationData from '../api/navigation.json'
 import './index.css'
 
@@ -94,61 +95,14 @@ type AboutSection = {
 
 type LifePhoto = {
   src: string
-  alt: Record<Language, string>
   place: Record<Language, string>
-  date: Record<Language, string>
+  date: Record<Language, string> & { value: string | null }
+  l10n_supported_fields?: string[]
 }
-
-const LIFE_PHOTOS: LifePhoto[] = [
-  {
-    src: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85',
-    alt: { 'en-US': 'A quiet road through a misty mountain valley', 'zh-TW': '穿過霧氣山谷的安靜道路' },
-    place: { 'en-US': 'Mountain road', 'zh-TW': '山路' },
-    date: { 'en-US': 'A slow morning', 'zh-TW': '慢慢的早晨' },
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1494783367193-149034c05e8f?auto=format&fit=crop&w=1000&q=85',
-    alt: { 'en-US': 'A green mountain ridge under a soft blue sky', 'zh-TW': '藍天下的綠色山脈' },
-    place: { 'en-US': 'Somewhere north', 'zh-TW': '北方某處' },
-    date: { 'en-US': 'Into the blue', 'zh-TW': '走進藍色裡' },
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1000&q=85',
-    alt: { 'en-US': 'Sunlight shining through tall grass at sunset', 'zh-TW': '夕陽穿過高草灑下的光' },
-    place: { 'en-US': 'Golden hour', 'zh-TW': '黃金時刻' },
-    date: { 'en-US': '18:42', 'zh-TW': '18:42' },
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=85',
-    alt: { 'en-US': 'A person walking along a quiet beach', 'zh-TW': '走在安靜海灘上的人' },
-    place: { 'en-US': 'By the sea', 'zh-TW': '海邊' },
-    date: { 'en-US': 'No rush', 'zh-TW': '不用急' },
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1000&q=85',
-    alt: { 'en-US': 'A starry night above a snow-covered mountain', 'zh-TW': '雪山上方的星空' },
-    place: { 'en-US': 'After dark', 'zh-TW': '天黑以後' },
-    date: { 'en-US': 'Look up', 'zh-TW': '抬頭看看' },
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=85',
-    alt: { 'en-US': 'A cabin in a wide green landscape', 'zh-TW': '廣闊綠地中的小屋' },
-    place: { 'en-US': 'A little getaway', 'zh-TW': '小小的出走' },
-    date: { 'en-US': 'Weekend notes', 'zh-TW': '週末筆記' },
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=85',
-    alt: { 'en-US': 'Turquoise water meeting a sandy beach', 'zh-TW': '碧藍海水與沙灘交會' },
-    place: { 'en-US': 'Tide line', 'zh-TW': '潮線' },
-    date: { 'en-US': 'A little lighter', 'zh-TW': '輕一點' },
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1000&q=85',
-    alt: { 'en-US': 'A calm lake surrounded by green hills', 'zh-TW': '綠色山丘環抱的平靜湖面' },
-    place: { 'en-US': 'Still water', 'zh-TW': '靜水' },
-    date: { 'en-US': 'One frame at a time', 'zh-TW': '一格一格地記下' },
-  },
-]
+type LifeRecords = {
+  l10n_supported_fields: string[]
+  items: LifePhoto[]
+}
 
 function App() {
   const cursorGlowRef = useRef<HTMLDivElement>(null)
@@ -162,6 +116,11 @@ function App() {
   const home = homeData as Home
   const navigation = navigationData as Navigation
   const about = aboutData as About
+  const lifePhotos = [...(lifeRecordsData as LifeRecords).items].sort((a, b) => {
+    const dateA = a.date.value ?? ''
+    const dateB = b.date.value ?? ''
+    return dateB.localeCompare(dateA)
+  })
   const [aboutSectionIndex, setAboutSectionIndex] = useState(0)
   const [experienceIndex, setExperienceIndex] = useState(0)
   const [educationIndex, setEducationIndex] = useState(0)
@@ -421,14 +380,13 @@ function App() {
               <h1 className="max-w-3xl text-5xl font-bold tracking-tight sm:text-7xl">
                 {isChinese ? '生活記錄' : 'Life records'}
               </h1>
-              <span className="page-status-badge">{isChinese ? '建置中' : 'In progress'}</span>
             </div>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300">
               {isChinese ? '把路上遇見的光、風景與片刻，留在這裡。' : 'A collection of light, places, and little moments found along the way.'}
             </p>
           </div>
           <div className="life-masonry mt-14" aria-label={isChinese ? '生活照片' : 'Life photos'}>
-            {LIFE_PHOTOS.map((photo, index) => (
+            {lifePhotos.map((photo, index) => (
               <button
                 className="life-photo"
                 type="button"
@@ -436,7 +394,7 @@ function App() {
                 aria-label={isChinese ? `查看${photo.place[language]}照片` : `View photo from ${photo.place[language]}`}
                 key={photo.src}
               >
-                <img src={photo.src} alt={photo.alt[language]} loading={index < 3 ? 'eager' : 'lazy'} />
+                <img src={photo.src} alt="" loading={index < 3 ? 'eager' : 'lazy'} />
                 <span className="life-photo-overlay">
                   <span>
                     <strong>{photo.place[language]}</strong>
@@ -619,7 +577,7 @@ function App() {
           className="life-modal"
           role="dialog"
           aria-modal="true"
-          aria-label={selectedLifePhoto.alt[language]}
+          aria-label={selectedLifePhoto.place[language]}
           onClick={() => setSelectedLifePhoto(null)}
         >
           <div className="life-modal-content" onClick={(event) => event.stopPropagation()}>
@@ -628,7 +586,7 @@ function App() {
                 <path d="M6 6l12 12M18 6L6 18" />
               </svg>
             </button>
-            <img src={selectedLifePhoto.src} alt={selectedLifePhoto.alt[language]} />
+            <img src={selectedLifePhoto.src} alt="" />
             <div className="life-modal-caption">
               <div>
                 <strong>{selectedLifePhoto.place[language]}</strong>

@@ -1,0 +1,515 @@
+{
+  "l10n_supported_fields": ["items"],
+  "items": [
+    {
+      "src": "/assets/life-records/IMG_1491.jpg",
+      "place": { "en-US": "Fushimi Inari Taisha Torii", "zh-TW": "伏見稻荷大社鳥居" },
+      "date": { "en-US": "March 17, 2026", "zh-TW": "2026 年 3 月 17 日", "value": "2026-03-17" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_2740.jpg",
+      "place": { "en-US": "Kansai International Airport", "zh-TW": "關西國際機場" },
+      "date": { "en-US": "March 19, 2026", "zh-TW": "2026 年 3 月 19 日", "value": "2026-03-19" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_1161-EDIT.jpg",
+      "place": { "en-US": "Kiyomizu-dera Temple", "zh-TW": "京都清水寺" },
+      "date": { "en-US": "March 17, 2026", "zh-TW": "2026 年 3 月 17 日", "value": "2026-03-17" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_1216.jpg",
+      "place": { "en-US": "Kiyomizu-dera Three-Story Pagoda", "zh-TW": "京都清水寺三重塔" },
+      "date": { "en-US": "March 17, 2026", "zh-TW": "2026 年 3 月 17 日", "value": "2026-03-17" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_1240-EDIT.jpg",
+      "place": { "en-US": "Ninenzaka Five-Story Pagoda", "zh-TW": "京都二年坂五重塔" },
+      "date": { "en-US": "March 17, 2026", "zh-TW": "2026 年 3 月 17 日", "value": "2026-03-17" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_1243.jpg",
+      "place": { "en-US": "Sanneizaka Street Scene", "zh-TW": "京都三年坂街景" },
+      "date": { "en-US": "March 17, 2026", "zh-TW": "2026 年 3 月 17 日", "value": "2026-03-17" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_1319.jpg",
+      "place": { "en-US": "Gion Yasaka Shrine Gate", "zh-TW": "京都祇園八坂神社社門" },
+      "date": { "en-US": "March 17, 2026", "zh-TW": "2026 年 3 月 17 日", "value": "2026-03-17" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_1378.jpg",
+      "place": { "en-US": "Byodo-in Phoenix Hall, Uji", "zh-TW": "宇治平等院鳳凰堂" },
+      "date": { "en-US": "March 17, 2026", "zh-TW": "2026 年 3 月 17 日", "value": "2026-03-17" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_1436.jpg",
+      "place": { "en-US": "Fushimi Inari Taisha Main Entrance", "zh-TW": "伏見稻荷大社大門入口" },
+      "date": { "en-US": "March 17, 2026", "zh-TW": "2026 年 3 月 17 日", "value": "2026-03-17" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_1467.jpg",
+      "place": { "en-US": "Fushimi Inari Taisha Main Gate", "zh-TW": "伏見稻荷大社大門" },
+      "date": { "en-US": "March 17, 2026", "zh-TW": "2026 年 3 月 17 日", "value": "2026-03-17" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_1516.jpg",
+      "place": { "en-US": "Fushimi Inari Taisha Senbon Torii", "zh-TW": "伏見稻荷大社千本鳥居" },
+      "date": { "en-US": "March 17, 2026", "zh-TW": "2026 年 3 月 17 日", "value": "2026-03-17" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_1544.jpg",
+      "place": { "en-US": "Kyoto Station", "zh-TW": "京都車站" },
+      "date": { "en-US": "March 17, 2026", "zh-TW": "2026 年 3 月 17 日", "value": "2026-03-17" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_1609.JPG",
+      "place": { "en-US": "Yodo Suiju Kawazu Cherry Blossoms", "zh-TW": "淀水路河津櫻" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_1703.jpg",
+      "place": { "en-US": "Todaiji Temple Main Gate", "zh-TW": "東大寺大門" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_1786.jpg",
+      "place": { "en-US": "Dotonbori Glico Running Man Billboard", "zh-TW": "大阪道頓堀固力果看板" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_1793.jpg",
+      "place": { "en-US": "Selfie at Dotonbori Glico Running Man Billboard", "zh-TW": "大阪道頓堀固力果看板自拍" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_1822.jpg",
+      "place": { "en-US": "Abeno Harukas Observatory View of Tennoji", "zh-TW": "大阪阿倍野 Harukas 展望台眺望天王寺" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_1994.jpg",
+      "place": { "en-US": "Abeno Harukas and JR Tennoji Station", "zh-TW": "大阪阿倍野 Harukas 與 JR 天王寺站" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_2032-EDIT.jpg",
+      "place": { "en-US": "Shitennoji Five-Story Pagoda, Tennoji", "zh-TW": "大阪天王寺五重塔" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_2081.jpg",
+      "place": { "en-US": "Tsutenkaku View of Abeno Harukas", "zh-TW": "大阪通天閣眺望阿倍野 Harukas" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_2138.jpg",
+      "place": { "en-US": "Tsutenkaku Tower", "zh-TW": "大阪通天閣" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_2151.jpg",
+      "place": { "en-US": "Tsutenkaku Tower and Street", "zh-TW": "大阪通天閣與街道" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_2273.jpg",
+      "place": { "en-US": "Sumiyoshi Taisha Taiko Bridge", "zh-TW": "大阪住吉大社太古橋" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_2280-EDIT.jpg",
+      "place": { "en-US": "Side Selfie at Sumiyoshi Taisha Taiko Bridge", "zh-TW": "大阪住吉大社太古橋側面自拍" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_2291.jpg",
+      "place": { "en-US": "Sennichimae Shopping Street Scene", "zh-TW": "大阪千日前商店街街景" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_2339.jpg",
+      "place": { "en-US": "Osaka Castle Moat", "zh-TW": "大阪城護城河" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_2377-EDIT.jpg",
+      "place": { "en-US": "Osaka Castle Nishinomaru Garden", "zh-TW": "大阪城西之丸庭園" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_2401-EDIT.jpg",
+      "place": { "en-US": "Osaka Castle Keep", "zh-TW": "大阪城天守閣" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_2460.jpg",
+      "place": { "en-US": "Osaka Castle Keep Observatory", "zh-TW": "大阪城天守閣展望台" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_2512.jpg",
+      "place": { "en-US": "Osaka Castle Keep and Moat Bridge", "zh-TW": "大阪城天守閣與護城河橋" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_2555.jpg",
+      "place": { "en-US": "Umeda Sky Building", "zh-TW": "梅田藍天大樓" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_2577.jpg",
+      "place": { "en-US": "Umeda Sky Building View of Expressway Through the Building", "zh-TW": "梅田藍天大樓眺望穿過大樓的高速公路" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_2638-Copy.JPG",
+      "place": { "en-US": "Looking Up at Umeda Sky Building", "zh-TW": "仰望梅田藍天大樓" },
+      "date": { "en-US": "March 20, 2026", "zh-TW": "2026 年 3 月 20 日", "value": "2026-03-20" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_2653.jpg",
+      "place": { "en-US": "Hozenji Yokocho, Osaka", "zh-TW": "大阪法善寺橫丁" },
+      "date": { "en-US": "March 18, 2026", "zh-TW": "2026 年 3 月 18 日", "value": "2026-03-18" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_0800.jpg",
+      "place": { "en-US": "Nijo Castle Moat", "zh-TW": "京都二条城護城河" },
+      "date": { "en-US": "March 16, 2026", "zh-TW": "2026 年 3 月 16 日", "value": "2026-03-16" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_0838.jpg",
+      "place": { "en-US": "Kinkaku-ji Shariden", "zh-TW": "京都金閣寺舍利殿" },
+      "date": { "en-US": "March 16, 2026", "zh-TW": "2026 年 3 月 16 日", "value": "2026-03-16" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_0908.jpg",
+      "place": { "en-US": "Togetsukyo Bridge, Arashiyama", "zh-TW": "京都嵐山渡月橋" },
+      "date": { "en-US": "March 16, 2026", "zh-TW": "2026 年 3 月 16 日", "value": "2026-03-16" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_1033.jpg",
+      "place": { "en-US": "Umekoji Steam Locomotive Depot, Kyoto Railway Museum", "zh-TW": "京都鐵道博物館梅小路蒸汽機關車庫" },
+      "date": { "en-US": "March 16, 2026", "zh-TW": "2026 年 3 月 16 日", "value": "2026-03-16" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_0817-EDIT.jpg",
+      "place": { "en-US": "Kinkaku-ji Temple Gate", "zh-TW": "京都金閣寺寺門" },
+      "date": { "en-US": "March 16, 2026", "zh-TW": "2026 年 3 月 16 日", "value": "2026-03-16" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_0784.jpg",
+      "place": { "en-US": "Nijo Castle North Inner Gate", "zh-TW": "京都二条城北中仕切門" },
+      "date": { "en-US": "March 16, 2026", "zh-TW": "2026 年 3 月 16 日", "value": "2026-03-16" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_0677.jpg",
+      "place": { "en-US": "Nijo Castle Garden", "zh-TW": "京都二条城庭園" },
+      "date": { "en-US": "March 16, 2026", "zh-TW": "2026 年 3 月 16 日", "value": "2026-03-16" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_0610.jpg",
+      "place": { "en-US": "Toji Five-Story Pagoda", "zh-TW": "京都東寺五重塔" },
+      "date": { "en-US": "March 15, 2026", "zh-TW": "2026 年 3 月 15 日", "value": "2026-03-15" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_0570.jpg",
+      "place": { "en-US": "Toji Temple at night", "zh-TW": "京都東寺夜景" },
+      "date": { "en-US": "March 15, 2026", "zh-TW": "2026 年 3 月 15 日", "value": "2026-03-15" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_0514.jpg",
+      "place": { "en-US": "Flight", "zh-TW": "飛行" },
+      "date": { "en-US": "March 15, 2026", "zh-TW": "2026 年 3 月 15 日", "value": "2026-03-15" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_0499.jpg",
+      "place": { "en-US": "Taoyuan International Airport", "zh-TW": "桃園國際機場" },
+      "date": { "en-US": "March 15, 2026", "zh-TW": "2026 年 3 月 15 日", "value": "2026-03-15" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/20221104_190638.jpg",
+      "place": { "en-US": "Taipei New Paradise", "zh-TW": "台北新樂園" },
+      "date": { "en-US": "November 4, 2022", "zh-TW": "2022 年 11 月 4 日", "value": "2022-11-04" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_20200222_101115.jpg",
+      "place": { "en-US": "Fangshan Recreation Area, Pingtung", "zh-TW": "屏東枋山遊憩區" },
+      "date": { "en-US": "February 22, 2020", "zh-TW": "2020 年 2 月 22 日", "value": "2020-02-22" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_0648-EDIT.jpg",
+      "place": { "en-US": "Nijo Castle Kara-mon Gate", "zh-TW": "京都二条城唐門" },
+      "date": { "en-US": "March 16, 2026", "zh-TW": "2026 年 3 月 16 日", "value": "2026-03-16" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_0718-EDIT.jpg",
+      "place": { "en-US": "Nijo Castle Observatory", "zh-TW": "京都二条城展望台" },
+      "date": { "en-US": "March 16, 2026", "zh-TW": "2026 年 3 月 16 日", "value": "2026-03-16" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC01658.JPG",
+      "place": { "en-US": "Liberty Square Gate, Taipei", "zh-TW": "台北自由廣場牌樓" },
+      "date": { "en-US": "April 19, 2026", "zh-TW": "2026 年 4 月 19 日", "value": "2026-04-19" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC01669.JPG",
+      "place": { "en-US": "Chiang Kai-shek Memorial Hall, Taipei", "zh-TW": "台北中正紀念堂" },
+      "date": { "en-US": "May 30, 2026", "zh-TW": "2026 年 5 月 30 日", "value": "2026-05-30" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC01678.JPG",
+      "place": { "en-US": "Looking Up at Chiang Kai-shek Memorial Hall, Taipei", "zh-TW": "仰望台北中正紀念堂" },
+      "date": { "en-US": "April 25, 2026", "zh-TW": "2026 年 4 月 25 日", "value": "2026-04-25" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC01685.JPG",
+      "place": { "en-US": "Chiang Kai-shek Wax Figure, Taipei", "zh-TW": "台北中正紀念堂蔣中正蠟像" },
+      "date": { "en-US": "May 17, 2026", "zh-TW": "2026 年 5 月 17 日", "value": "2026-05-17" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_3085.jpg",
+      "place": { "en-US": "Dingjing Hall, Lin Family Mansion and Garden, New Taipei", "zh-TW": "新北林家花園定靜堂" },
+      "date": { "en-US": "May 17, 2026", "zh-TW": "2026 年 5 月 17 日", "value": "2026-05-17" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_3242.jpg",
+      "place": { "en-US": "Former British Consular Residence, New Taipei", "zh-TW": "新北前清英國領事官邸" },
+      "date": { "en-US": "May 17, 2026", "zh-TW": "2026 年 5 月 17 日", "value": "2026-05-17" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC00084.JPG",
+      "place": { "en-US": "Inside the Taipei Water Museum", "zh-TW": "台北自來水博物館內部" },
+      "date": { "en-US": "May 17, 2026", "zh-TW": "2026 年 5 月 17 日", "value": "2026-05-17" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC00093.JPG",
+      "place": { "en-US": "Exterior of the Taipei Water Museum", "zh-TW": "台北自來水博物館外部" },
+      "date": { "en-US": "May 17, 2026", "zh-TW": "2026 年 5 月 17 日", "value": "2026-05-17" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_3520.jpg",
+      "place": { "en-US": "Selfie at the Taipei National Railway Museum", "zh-TW": "台北國家鐵道博物館自拍" },
+      "date": { "en-US": "May 1, 2026", "zh-TW": "2026 年 5 月 1 日", "value": "2026-05-01" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_3713.jpg",
+      "place": { "en-US": "Selfie at the National Taiwan Museum Paleontology Hall", "zh-TW": "台北臺灣博物館古生物館自拍" },
+      "date": { "en-US": "May 2, 2026", "zh-TW": "2026 年 5 月 2 日", "value": "2026-05-02" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC00245.JPG",
+      "place": { "en-US": "Main Building Courtyard of the National Taiwan Museum", "zh-TW": "台北臺灣博物館本館中庭" },
+      "date": { "en-US": "May 2, 2026", "zh-TW": "2026 年 5 月 2 日", "value": "2026-05-02" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC00442.JPG",
+      "place": { "en-US": "National Taiwan Museum Railway Department Park", "zh-TW": "台北臺灣博物館鐵道部園區" },
+      "date": { "en-US": "May 2, 2026", "zh-TW": "2026 年 5 月 2 日", "value": "2026-05-02" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC00541.JPG",
+      "place": { "en-US": "Looking Up at the Taiwan Presidential Office Building Tower", "zh-TW": "台北臺灣總統府仰望塔樓" },
+      "date": { "en-US": "May 9, 2026", "zh-TW": "2026 年 5 月 9 日", "value": "2026-05-09" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_3967.jpg",
+      "place": { "en-US": "Selfie in Front of the Taiwan Presidential Office Building", "zh-TW": "台北臺灣總統府前自拍" },
+      "date": { "en-US": "May 9, 2026", "zh-TW": "2026 年 5 月 9 日", "value": "2026-05-09" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC00723.JPG",
+      "place": { "en-US": "Evergreen Maritime Museum Entrance, Taipei", "zh-TW": "台北長榮海事博物館入口" },
+      "date": { "en-US": "May 9, 2026", "zh-TW": "2026 年 5 月 9 日", "value": "2026-05-09" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC00992.JPG",
+      "place": { "en-US": "Taipei Guest House", "zh-TW": "台北賓館" },
+      "date": { "en-US": "May 9, 2026", "zh-TW": "2026 年 5 月 9 日", "value": "2026-05-09" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_4730.JPG",
+      "place": { "en-US": "Taipei 101 Observatory View of Taipei Cityscape", "zh-TW": "台北 101 展望台眺望台北市景" },
+      "date": { "en-US": "May 15, 2026", "zh-TW": "2026 年 5 月 15 日", "value": "2026-05-15" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_4757.jpg",
+      "place": { "en-US": "Selfie with Taipei 101's Tuned Mass Damper", "zh-TW": "台北 101 風阻尼器自拍" },
+      "date": { "en-US": "May 15, 2026", "zh-TW": "2026 年 5 月 15 日", "value": "2026-05-15" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC01263.JPG",
+      "place": { "en-US": "Taipei 101 Observatory View of Sun Yat-sen Memorial Hall", "zh-TW": "台北 101 展望台俯視國父紀念館" },
+      "date": { "en-US": "May 15, 2026", "zh-TW": "2026 年 5 月 15 日", "value": "2026-05-15" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC01280.JPG",
+      "place": { "en-US": "Taipei City Night View from Taipei 101 Observatory", "zh-TW": "台北 101 展望台台北市夜景" },
+      "date": { "en-US": "May 15, 2026", "zh-TW": "2026 年 5 月 15 日", "value": "2026-05-15" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC01294.JPG",
+      "place": { "en-US": "Taipei 101 Observatory Night View", "zh-TW": "台北 101 展望台夜景" },
+      "date": { "en-US": "May 15, 2026", "zh-TW": "2026 年 5 月 15 日", "value": "2026-05-15" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC01203.JPG",
+      "place": { "en-US": "Taipei 101 Observatory View of Guanyin Mountain", "zh-TW": "台北 101 展望台眺望觀音山" },
+      "date": { "en-US": "May 15, 2026", "zh-TW": "2026 年 5 月 15 日", "value": "2026-05-15" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC01573.JPG",
+      "place": { "en-US": "Lin Tai-an Ancient House, Taipei", "zh-TW": "台北林泰安古厝" },
+      "date": { "en-US": "May 16, 2025", "zh-TW": "2025 年 5 月 16 日", "value": "2025-05-16" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC01827.JPG",
+      "place": { "en-US": "Bath Hall at Beitou Hot Spring Museum, Taipei", "zh-TW": "台北北投溫泉博物館浴池" },
+      "date": { "en-US": "May 23, 2026", "zh-TW": "2026 年 5 月 23 日", "value": "2026-05-23" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC01810.JPG",
+      "place": { "en-US": "Lobby of Beitou Hot Spring Museum, Taipei", "zh-TW": "台北北投溫泉博物館大廳" },
+      "date": { "en-US": "May 23, 2026", "zh-TW": "2026 年 5 月 23 日", "value": "2026-05-23" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC01802.JPG",
+      "place": { "en-US": "Taipei Hot Spring Museum", "zh-TW": "台北溫泉博物館" },
+      "date": { "en-US": "May 23, 2026", "zh-TW": "2026 年 5 月 23 日", "value": "2026-05-23" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC01868.JPG",
+      "place": { "en-US": "Beitou Thermal Valley, Taipei", "zh-TW": "台北北投地熱谷" },
+      "date": { "en-US": "May 23, 2026", "zh-TW": "2026 年 5 月 23 日", "value": "2026-05-23" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC01881.JPG",
+      "place": { "en-US": "Tamsui Bridge, New Taipei", "zh-TW": "新北淡江大橋" },
+      "date": { "en-US": "May 17, 2026", "zh-TW": "2026 年 5 月 17 日", "value": "2026-05-17" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_6068.jpg",
+      "place": { "en-US": "The Red House, Ximending, Taipei", "zh-TW": "台北西門紅樓" },
+      "date": { "en-US": "June 6, 2026", "zh-TW": "2026 年 6 月 6 日", "value": "2026-06-06" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC02001.jpg",
+      "place": { "en-US": "Yehliu Geopark, New Taipei", "zh-TW": "新北野柳地質公園" },
+      "date": { "en-US": "June 19, 2026", "zh-TW": "2026 年 6 月 19 日", "value": "2026-06-19" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC02012.JPG",
+      "place": { "en-US": "Yehliu Geopark, New Taipei", "zh-TW": "新北野柳地質公園" },
+      "date": { "en-US": "June 19, 2026", "zh-TW": "2026 年 6 月 19 日", "value": "2026-06-19" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC02043.JPG",
+      "place": { "en-US": "Shifen Old Street, New Taipei", "zh-TW": "新北十分老街" },
+      "date": { "en-US": "June 19, 2026", "zh-TW": "2026 年 6 月 19 日", "value": "2026-06-19" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/DSC02088.JPG",
+      "place": { "en-US": "Jiufen Old Street, New Taipei", "zh-TW": "新北九份老街" },
+      "date": { "en-US": "June 19, 2026", "zh-TW": "2026 年 6 月 19 日", "value": "2026-06-19" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_6467.jpg",
+      "place": { "en-US": "Selfie at Jiufen Old Street, New Taipei", "zh-TW": "新北九份老街自拍" },
+      "date": { "en-US": "June 19, 2026", "zh-TW": "2026 年 6 月 19 日", "value": "2026-06-19" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_6521.jpg",
+      "place": { "en-US": "Selfie at the Junji Ito Exhibition, Songshan", "zh-TW": "台北松菸伊藤潤二展自拍" },
+      "date": { "en-US": "June 21, 2026", "zh-TW": "2026 年 6 月 21 日", "value": "2026-06-21" },
+      "l10n_supported_fields": ["place", "date"]
+    },
+    {
+      "src": "/assets/life-records/IMG_3276.jpg",
+      "place": { "en-US": "Fort San Domingo, Tamsui, New Taipei", "zh-TW": "新北淡水紅毛城" },
+      "date": { "en-US": "May 17, 2026", "zh-TW": "2026 年 5 月 17 日", "value": "2026-05-17" },
+      "l10n_supported_fields": ["place", "date"]
+    }
+  ]
+}

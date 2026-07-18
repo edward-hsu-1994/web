@@ -19,6 +19,7 @@ The frontend imports its content directly from JSON files in `frontend/api/`:
 - `home.json` — homepage hero content and buttons
 - `about.json` — profile, experience, skills, and education
 - `navigation.json` — site navigation and localized labels
+- `life-records.json` — localized life photo metadata
 - `health.json` — reserved health status data
 
 There are no runtime API requests in the frontend. Updating a JSON file updates the corresponding page content after Vite reloads.
