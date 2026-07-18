@@ -50,6 +50,15 @@ def get_navigation() -> dict[str, object]:
             },
             {
                 "text": {
+                    "en-US": "Life records",
+                    "zh-TW": "生活記錄",
+                },
+                "type": "path",
+                "path": "/life-records",
+                "l10n_supported_fields": ["text"],
+            },
+            {
+                "text": {
                     "en-US": "GitHub",
                     "zh-TW": "GitHub",
                 },

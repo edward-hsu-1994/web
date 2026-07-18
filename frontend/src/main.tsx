@@ -81,6 +81,64 @@ type AboutSection = {
   }>
 }
 
+type LifePhoto = {
+  src: string
+  alt: Record<Language, string>
+  place: Record<Language, string>
+  date: Record<Language, string>
+}
+
+const LIFE_PHOTOS: LifePhoto[] = [
+  {
+    src: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85',
+    alt: { 'en-US': 'A quiet road through a misty mountain valley', 'zh-TW': '穿過霧氣山谷的安靜道路' },
+    place: { 'en-US': 'Mountain road', 'zh-TW': '山路' },
+    date: { 'en-US': 'A slow morning', 'zh-TW': '慢慢的早晨' },
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1494783367193-149034c05e8f?auto=format&fit=crop&w=1000&q=85',
+    alt: { 'en-US': 'A green mountain ridge under a soft blue sky', 'zh-TW': '藍天下的綠色山脈' },
+    place: { 'en-US': 'Somewhere north', 'zh-TW': '北方某處' },
+    date: { 'en-US': 'Into the blue', 'zh-TW': '走進藍色裡' },
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1000&q=85',
+    alt: { 'en-US': 'Sunlight shining through tall grass at sunset', 'zh-TW': '夕陽穿過高草灑下的光' },
+    place: { 'en-US': 'Golden hour', 'zh-TW': '黃金時刻' },
+    date: { 'en-US': '18:42', 'zh-TW': '18:42' },
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=85',
+    alt: { 'en-US': 'A person walking along a quiet beach', 'zh-TW': '走在安靜海灘上的人' },
+    place: { 'en-US': 'By the sea', 'zh-TW': '海邊' },
+    date: { 'en-US': 'No rush', 'zh-TW': '不用急' },
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1000&q=85',
+    alt: { 'en-US': 'A starry night above a snow-covered mountain', 'zh-TW': '雪山上方的星空' },
+    place: { 'en-US': 'After dark', 'zh-TW': '天黑以後' },
+    date: { 'en-US': 'Look up', 'zh-TW': '抬頭看看' },
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=85',
+    alt: { 'en-US': 'A cabin in a wide green landscape', 'zh-TW': '廣闊綠地中的小屋' },
+    place: { 'en-US': 'A little getaway', 'zh-TW': '小小的出走' },
+    date: { 'en-US': 'Weekend notes', 'zh-TW': '週末筆記' },
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1000&q=85',
+    alt: { 'en-US': 'Turquoise water meeting a sandy beach', 'zh-TW': '碧藍海水與沙灘交會' },
+    place: { 'en-US': 'Tide line', 'zh-TW': '潮線' },
+    date: { 'en-US': 'A little lighter', 'zh-TW': '輕一點' },
+  },
+  {
+    src: 'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1000&q=85',
+    alt: { 'en-US': 'A calm lake surrounded by green hills', 'zh-TW': '綠色山丘環抱的平靜湖面' },
+    place: { 'en-US': 'Still water', 'zh-TW': '靜水' },
+    date: { 'en-US': 'One frame at a time', 'zh-TW': '一格一格地記下' },
+  },
+]
+
 function App() {
   const cursorGlowRef = useRef<HTMLDivElement>(null)
   const initialTypingRef = useRef(true)
@@ -96,6 +154,7 @@ function App() {
   const [aboutSectionIndex, setAboutSectionIndex] = useState(0)
   const [experienceIndex, setExperienceIndex] = useState(0)
   const [educationIndex, setEducationIndex] = useState(0)
+  const [selectedLifePhoto, setSelectedLifePhoto] = useState<LifePhoto | null>(null)
   const isChinese = language === 'zh-TW'
   const content = home?.hero.content[language] ?? home?.hero.content['en-US']
   const imeAnime = home?.hero.content_ime_anime?.['zh-TW'] ?? EMPTY_IME_ANIME
@@ -156,8 +215,8 @@ function App() {
         const characterStart = startAt + index * characterDelay
         timers.push(window.setTimeout(() => setter(text.slice(0, index) + (pronunciation ?? character)), characterStart))
         timers.push(window.setTimeout(() => setter(text.slice(0, index + 1)), characterStart + (pronunciation ? Math.min(95, characterDelay - 20) : 0)))
-      }
-    }
+  }
+}
 
     setTypedGreeting('')
     setTypedName('')
@@ -208,6 +267,15 @@ function App() {
     window.addEventListener('mousemove', handleMouseMove)
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
+
+  useEffect(() => {
+    if (!selectedLifePhoto) return undefined
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setSelectedLifePhoto(null)
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [selectedLifePhoto])
 
   useEffect(() => {
     if (!about || pathname !== '/about') return undefined
@@ -358,6 +426,38 @@ function App() {
           <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300">
             {isChinese ? '這裡將展示我的作品與實作專案。' : 'A collection of projects, experiments, and thoughtful digital experiences.'}
           </p>
+        </section>
+      ) : pathname === '/life-records' ? (
+        <section className="life-page mx-auto min-h-[75vh] max-w-5xl py-16 sm:py-20">
+          <div className="life-heading max-w-3xl">
+            <p className="eyebrow mb-5">Life records</p>
+            <h1 className="max-w-3xl text-5xl font-bold tracking-tight sm:text-7xl">
+              {isChinese ? '生活記錄' : 'Life records'}
+            </h1>
+            <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300">
+              {isChinese ? '把路上遇見的光、風景與片刻，留在這裡。' : 'A collection of light, places, and little moments found along the way.'}
+            </p>
+          </div>
+          <div className="life-masonry mt-14" aria-label={isChinese ? '生活照片' : 'Life photos'}>
+            {LIFE_PHOTOS.map((photo, index) => (
+              <button
+                className="life-photo"
+                type="button"
+                onClick={() => setSelectedLifePhoto(photo)}
+                aria-label={isChinese ? `查看${photo.place[language]}照片` : `View photo from ${photo.place[language]}`}
+                key={photo.src}
+              >
+                <img src={photo.src} alt={photo.alt[language]} loading={index < 3 ? 'eager' : 'lazy'} />
+                <span className="life-photo-overlay">
+                  <span>
+                    <strong>{photo.place[language]}</strong>
+                    <small>{photo.date[language]}</small>
+                  </span>
+                  <span className="life-photo-arrow" aria-hidden="true">↗</span>
+                </span>
+              </button>
+            ))}
+          </div>
         </section>
       ) : pathname === '/about' ? (
         <section className="about-page mx-auto min-h-[75vh] max-w-5xl pt-16 pb-0 sm:pt-20">
@@ -520,6 +620,29 @@ function App() {
           <span>Find me online <span aria-hidden="true">↗</span></span>
         </a>
       </section>
+      )}
+      {selectedLifePhoto && (
+        <div
+          className="life-modal"
+          role="dialog"
+          aria-modal="true"
+          aria-label={selectedLifePhoto.alt[language]}
+          onClick={() => setSelectedLifePhoto(null)}
+        >
+          <div className="life-modal-content" onClick={(event) => event.stopPropagation()}>
+            <button className="life-modal-close" type="button" onClick={() => setSelectedLifePhoto(null)} aria-label={isChinese ? '關閉照片' : 'Close photo'}>
+              ×
+            </button>
+            <img src={selectedLifePhoto.src} alt={selectedLifePhoto.alt[language]} />
+            <div className="life-modal-caption">
+              <div>
+                <strong>{selectedLifePhoto.place[language]}</strong>
+                <span>{selectedLifePhoto.date[language]}</span>
+              </div>
+              <span className="life-modal-hint">{isChinese ? '點擊背景或按 Esc 關閉' : 'Click outside or press Esc to close'}</span>
+            </div>
+          </div>
+        </div>
       )}
     </main>
   )
