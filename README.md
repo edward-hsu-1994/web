@@ -10,6 +10,19 @@ make dev
 
 - Frontend: http://localhost:5173
 
+The project is currently frontend-only. The FastAPI backend and PostgreSQL services are paused and are not started by Docker Compose. The backend source remains in `backend/` for possible future use.
+
+## Local content
+
+The frontend imports its content directly from JSON files in `frontend/api/`:
+
+- `home.json` — homepage hero content and buttons
+- `about.json` — profile, experience, skills, and education
+- `navigation.json` — site navigation and localized labels
+- `health.json` — reserved health status data
+
+There are no runtime API requests in the frontend. Updating a JSON file updates the corresponding page content after Vite reloads.
+
 ## Commands
 
 ```bash
@@ -21,11 +34,23 @@ make build       # Build the frontend image
 make down        # Stop the frontend service
 ```
 
+## GitHub Pages
+
+GitHub Actions builds the frontend on every push to `main` and publishes the generated `frontend/dist/` files to the `gh-pages` branch. The workflow is defined in `.github/workflows/deploy-pages.yml` and can also be started manually from the Actions tab.
+
+To display the site, configure the repository's Pages settings to deploy from the `gh-pages` branch and the root directory. The project-site URL is:
+
+```text
+https://edward-hsu-1994.github.io/web/
+```
+
+The production build uses `/web/` as its base path and includes a `404.html` SPA fallback so client-side routes continue to work on GitHub Pages.
+
 ## Localization
 
 Localized content uses locale keys such as `en-US` and `zh-TW`. The frontend uses `en-US` as its fallback locale. Content is organized under `frontend/api/` using the former API names: `home.json`, `about.json`, `navigation.json`, and `health.json`.
 
-Objects and items that support localization declare their localized fields with `l10n_supported_fields`. For example, the home API uses `hero.l10n_supported_fields: ["content"]`, while each hero button uses `l10n_supported_fields: ["text"]`.
+Objects and items that support localization declare their localized fields with `l10n_supported_fields`. For example, `home.json` uses `hero.l10n_supported_fields: ["content"]`, while each hero button uses `l10n_supported_fields: ["text"]`.
 
 ```json
 {

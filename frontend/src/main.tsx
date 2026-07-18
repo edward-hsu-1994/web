@@ -8,6 +8,13 @@ import './index.css'
 type Language = 'en-US' | 'zh-TW'
 type TypingStage = 'waiting' | 'greeting' | 'name' | 'intro' | 'done'
 const EMPTY_IME_ANIME: Record<string, string> = {}
+const APP_BASE_PATH = import.meta.env.BASE_URL.replace(/\/$/, '')
+const toAppPath = () => {
+  const rawPath = window.location.pathname
+  if (APP_BASE_PATH && rawPath.startsWith(APP_BASE_PATH)) return rawPath.slice(APP_BASE_PATH.length) || '/'
+  return rawPath
+}
+const toAppHref = (path: string) => `${APP_BASE_PATH}${path}`
 type HeroContent = {
   greeting: string
   name: string
@@ -146,7 +153,7 @@ const LIFE_PHOTOS: LifePhoto[] = [
 function App() {
   const cursorGlowRef = useRef<HTMLDivElement>(null)
   const initialTypingRef = useRef(true)
-  const [pathname, setPathname] = useState(window.location.pathname)
+  const [pathname, setPathname] = useState(toAppPath)
   const [language, setLanguage] = useState<Language>(() => {
     const savedLanguage = localStorage.getItem('preferred-language')
     if (savedLanguage === 'zh' || savedLanguage === 'zh-TW') return 'zh-TW'
@@ -174,7 +181,7 @@ function App() {
   }, [language])
 
   useEffect(() => {
-    const handlePopState = () => setPathname(window.location.pathname)
+    const handlePopState = () => setPathname(toAppPath())
     window.addEventListener('popstate', handlePopState)
     return () => window.removeEventListener('popstate', handlePopState)
   }, [])
@@ -184,8 +191,8 @@ function App() {
 
     const syncSectionFromHash = () => {
       const sectionId = window.location.hash.replace(/^#/, '')
-      if (window.location.pathname === '/about' && !sectionId) {
-        window.history.replaceState({}, '', `${window.location.pathname}#${about.sections[0].id}`)
+      if (toAppPath() === '/about' && !sectionId) {
+        window.history.replaceState({}, '', `${toAppHref('/about')}#${about.sections[0].id}`)
         setAboutSectionIndex(0)
         return
       }
@@ -278,7 +285,7 @@ function App() {
       event.preventDefault()
       setAboutSectionIndex(nextIndex)
       const sectionId = about.sections[nextIndex].id
-      window.history.pushState({}, '', `${window.location.pathname}#${sectionId}`)
+      window.history.pushState({}, '', `${toAppHref(toAppPath())}#${sectionId}`)
     }
 
     window.addEventListener('keydown', handleGlobalAboutKeyDown)
@@ -292,7 +299,7 @@ function App() {
 
   const navigateToPath = (event: ReactMouseEvent<HTMLAnchorElement>, path: string) => {
     event.preventDefault()
-    window.history.pushState({}, '', path === '/about' ? `${path}#profile` : path)
+    window.history.pushState({}, '', path === '/about' ? `${toAppHref(path)}#profile` : toAppHref(path))
     setPathname(path)
     if (path === '/about') setAboutSectionIndex(0)
   }
@@ -303,7 +310,7 @@ function App() {
     setAboutSectionIndex(nextIndex)
     const sectionId = about.sections[nextIndex].id
     if (window.location.hash !== `#${sectionId}`) {
-      window.history.pushState({}, '', `${window.location.pathname}#${sectionId}`)
+      window.history.pushState({}, '', `${toAppHref(toAppPath())}#${sectionId}`)
     }
   }
 
@@ -372,7 +379,7 @@ function App() {
               {item.type === 'path' && item.path && (
                 <a
                   className={pathname === item.path ? 'nav-link active' : 'nav-link'}
-                  href={item.path}
+                  href={toAppHref(item.path)}
                   onClick={(event) => navigateToPath(event, item.path!)}
                 >
                   {typeof item.text === 'string' ? item.text : item.text[language]}
@@ -396,9 +403,12 @@ function App() {
       {pathname === '/portfolio' ? (
         <section className="portfolio-page mx-auto min-h-[75vh] max-w-5xl py-20">
           <p className="eyebrow mb-5">Portfolio</p>
-          <h1 className="max-w-3xl text-5xl font-bold tracking-tight sm:text-7xl">
-            {isChinese ? '作品集' : 'Selected work'}
-          </h1>
+          <div className="life-title-row">
+            <h1 className="max-w-3xl text-5xl font-bold tracking-tight sm:text-7xl">
+              {isChinese ? '作品集' : 'Selected work'}
+            </h1>
+            <span className="page-status-badge">{isChinese ? '建置中' : 'In progress'}</span>
+          </div>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300">
             {isChinese ? '這裡將展示我的作品與實作專案。' : 'A collection of projects, experiments, and thoughtful digital experiences.'}
           </p>
@@ -407,9 +417,12 @@ function App() {
         <section className="life-page mx-auto min-h-[75vh] max-w-5xl py-16 sm:py-20">
           <div className="life-heading max-w-3xl">
             <p className="eyebrow mb-5">Life records</p>
-            <h1 className="max-w-3xl text-5xl font-bold tracking-tight sm:text-7xl">
-              {isChinese ? '生活記錄' : 'Life records'}
-            </h1>
+            <div className="life-title-row">
+              <h1 className="max-w-3xl text-5xl font-bold tracking-tight sm:text-7xl">
+                {isChinese ? '生活記錄' : 'Life records'}
+              </h1>
+              <span className="page-status-badge">{isChinese ? '建置中' : 'In progress'}</span>
+            </div>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300">
               {isChinese ? '把路上遇見的光、風景與片刻，留在這裡。' : 'A collection of light, places, and little moments found along the way.'}
             </p>
