@@ -66,6 +66,22 @@
       "l10n_supported_fields": ["title", "description", "about", "link_label"]
     },
     {
+      "id": "taiwan-stock-happy-five-lines",
+      "title": { "en-US": "Taiwan Stock Happy Five Lines", "zh-TW": "台股開心五線譜" },
+      "description": {
+        "en-US": "A Taiwan stock analysis tool built around the Happy Five Lines strategy.",
+        "zh-TW": "以開心五線譜策略為核心的台股分析工具。"
+      },
+      "about": {
+        "en-US": "Helps explore Taiwan stock market signals and make technical analysis more approachable.",
+        "zh-TW": "協助探索台股市場訊號，讓技術分析更容易理解與使用。"
+      },
+      "tags": ["Taiwan Stocks", "Technical Analysis", "Finance"],
+      "link": "https://github.com/edward-hsu-1994/taiwan-stock-happy-five-lines",
+      "link_label": { "en-US": "View on GitHub", "zh-TW": "查看 GitHub 專案" },
+      "l10n_supported_fields": ["title", "description", "about", "link_label"]
+    },
+    {
       "id": "community-powertoys-run-plugin-askllm",
       "title": { "en-US": "PowerToys Run Plugin: AskLLM", "zh-TW": "PowerToys Run 外掛：AskLLM" },
       "description": {
