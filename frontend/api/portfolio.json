@@ -67,10 +67,10 @@
     },
     {
       "id": "taiwan-stock-happy-five-lines",
-      "title": { "en-US": "Taiwan Stock LOHAS Five Lines", "zh-TW": "台股樂活五線譜" },
+      "title": { "en-US": "Mean-Reversion Standard Deviation Channel Analysis", "zh-TW": "均值回歸的標準差通道分析" },
       "description": {
-        "en-US": "A Taiwan stock analysis tool built around the LOHAS Five Lines strategy.",
-        "zh-TW": "以樂活五線譜策略為核心的台股分析工具。"
+        "en-US": "Daily closing prices are arranged into a rhythmic map of price movements. Find the position first, then decide your own investment pace.",
+        "zh-TW": "每日收盤價整理成一張有節奏的價格地圖。先看位置，再決定自己的投資步調。"
       },
       "about": {
         "en-US": "Helps explore Taiwan stock market signals and make technical analysis more approachable.",
