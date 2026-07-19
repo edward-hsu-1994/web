@@ -67,10 +67,10 @@
     },
     {
       "id": "taiwan-stock-happy-five-lines",
-      "title": { "en-US": "Taiwan Stock Happy Five Lines", "zh-TW": "台股開心五線譜" },
+      "title": { "en-US": "Taiwan Stock LOHAS Five Lines", "zh-TW": "台股樂活五線譜" },
       "description": {
-        "en-US": "A Taiwan stock analysis tool built around the Happy Five Lines strategy.",
-        "zh-TW": "以開心五線譜策略為核心的台股分析工具。"
+        "en-US": "A Taiwan stock analysis tool built around the LOHAS Five Lines strategy.",
+        "zh-TW": "以樂活五線譜策略為核心的台股分析工具。"
       },
       "about": {
         "en-US": "Helps explore Taiwan stock market signals and make technical analysis more approachable.",
