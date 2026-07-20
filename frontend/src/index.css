@@ -346,6 +346,7 @@ a {
 .wheel-option.selected { text-shadow: 0 0 1.5rem rgba(103, 232, 249, 0.45); }
 .wheel-hint { margin-top: 0.75rem; color: #64748b; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; }
 .about-content { animation: content-swap 450ms ease-out both; }
+.about-mobile-sections { display: none; }
 .about-detail-grid { max-width: 40rem; }
 .about-detail { padding: 1rem 1.1rem; border: 1px solid rgba(148, 163, 184, 0.16); border-radius: 0.9rem; background: rgba(15, 23, 42, 0.48); }
 .experience-carousel { display: grid; grid-template-columns: minmax(0, 1fr) 1.2rem; max-width: 42rem; gap: 1.5rem; align-items: center; }
@@ -361,6 +362,45 @@ a {
 @keyframes content-swap { from { opacity: 0; transform: translateX(18px); } to { opacity: 1; transform: translateX(0); } }
 
 @media (max-width: 639px) {
+  .site-shell > nav {
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+  .nav-links {
+    min-width: 0;
+    flex: 1 1 0%;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.45rem 0.65rem;
+    padding: 0.65rem 0.7rem;
+    border-radius: 1.25rem;
+  }
+  .nav-link,
+  .language-switcher {
+    white-space: nowrap;
+  }
+  .nav-divider {
+    display: none;
+  }
+  .option-wheel,
+  .about-content {
+    display: none;
+  }
+  .about-mobile-sections {
+    display: grid;
+    gap: 4rem;
+  }
+  .about-mobile-section + .about-mobile-section {
+    padding-top: 3rem;
+    border-top: 1px solid rgba(148, 163, 184, 0.18);
+  }
+  .about-mobile-records {
+    display: grid;
+    gap: 1rem;
+  }
+  .about-mobile-records .experience-item {
+    min-height: 0;
+  }
   .life-masonry { grid-template-columns: 1fr; }
   .life-modal { padding: 0.75rem; }
   .life-modal-caption { display: block; }

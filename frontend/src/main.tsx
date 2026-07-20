@@ -624,6 +624,54 @@ function App() {
                 </div>
               )}
             </article>
+            <div className="about-mobile-sections">
+              {about.sections.map((section) => (
+                <article className="about-mobile-section" key={section.id}>
+                  <p className="fact-label">{section.kicker[language]}</p>
+                  <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-white">{section.title[language]}</h2>
+                  {section.description[language] && (
+                    <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">{section.description[language]}</p>
+                  )}
+                  {section.jobs && (
+                    <div className="about-mobile-records mt-8">
+                      {section.jobs.map((job) => (
+                        <article className="experience-item" key={job.company[language]}>
+                          <div className="experience-period">{job.period[language]}</div>
+                          <div>
+                            <h3 className="experience-company">{job.company[language]}</h3>
+                            <p className="experience-role">{job.role[language]}</p>
+                            <p className="mt-3 text-slate-300">{job.responsibilities[language]}</p>
+                          </div>
+                        </article>
+                      ))}
+                    </div>
+                  )}
+                  {!section.jobs && section.items.length > 0 && (
+                    <div className="about-detail-grid mt-8 grid gap-4">
+                      {section.items.map((item) => (
+                        <div className="about-detail" key={item.label[language]}>
+                          <p className="fact-label">{item.label[language]}</p>
+                          <p className="mt-3 text-slate-200">{item.value[language]}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {section.education && (
+                    <div className="about-mobile-records mt-8">
+                      {section.education.map((record) => (
+                        <article className="experience-item" key={record.institution[language]}>
+                          <div className="experience-period">{record.period[language]}</div>
+                          <div>
+                            <h3 className="experience-company">{record.institution[language]}</h3>
+                            <p className="experience-role">{record.degree[language]}</p>
+                          </div>
+                        </article>
+                      ))}
+                    </div>
+                  )}
+                </article>
+              ))}
+            </div>
           </div>
         </section>
       ) : (
