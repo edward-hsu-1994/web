@@ -2,6 +2,22 @@
   "l10n_supported_fields": ["items"],
   "items": [
     {
+      "id": "share-gather",
+      "title": { "en-US": "ShareGather", "zh-TW": "ShareGather" },
+      "description": {
+        "en-US": "A local-first iPhone app for collecting URLs, text, and images from the iOS Share Sheet.",
+        "zh-TW": "透過 iOS 分享表單收藏網址、文字與圖片的本機優先 iPhone App。"
+      },
+      "about": {
+        "en-US": "Keeps saved content private and organized with categories, pinning, and portable backup and restore—without requiring an account or cloud service.",
+        "zh-TW": "無須帳號或雲端服務，即可用分類、釘選與可攜式備份／還原功能，私密地整理收藏內容。"
+      },
+      "tags": ["SwiftUI", "iOS", "Share Extension", "Local-first"],
+      "link": "https://github.com/edward-hsu-1994/ShareGather",
+      "link_label": { "en-US": "View on GitHub", "zh-TW": "查看 GitHub 專案" },
+      "l10n_supported_fields": ["title", "description", "about", "link_label"]
+    },
+    {
       "id": "webp-wrapper",
       "title": { "en-US": "WebPWrapper", "zh-TW": "WebPWrapper" },
       "description": {
