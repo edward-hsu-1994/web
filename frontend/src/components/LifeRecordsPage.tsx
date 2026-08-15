@@ -11,7 +11,7 @@ type LifeRecordsPageProps = {
 
 function getLifeMasonryColumnCount() {
   if (typeof window === 'undefined') return 3
-  if (window.innerWidth < 640) return 2
+  if (window.innerWidth < 640) return 1
   if (window.innerWidth < 900) return 2
   return 3
 }
