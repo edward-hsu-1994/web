@@ -132,7 +132,10 @@ const allLifePhotos = [...((lifeRecordsData as LifeRecords | undefined)?.items ?
     const parsed = Date.parse(`${value}T00:00:00`)
     return Number.isNaN(parsed) ? Number.NEGATIVE_INFINITY : parsed
   }
-  return parseDate(b.date.value) - parseDate(a.date.value)
+  const dateA = parseDate(a.date.value)
+  const dateB = parseDate(b.date.value)
+  if (dateA === dateB) return 0
+  return dateB - dateA
 })
 
 function App() {
@@ -140,7 +143,7 @@ function App() {
   const initialTypingRef = useRef(true)
   const [pathname, setPathname] = useState(toAppPath)
   const [language, setLanguage] = useState<Language>(() => {
-    let savedLanguage: string | null = null
+    let savedLanguage: string | null
     try {
       savedLanguage = localStorage.getItem('preferred-language')
     } catch {
@@ -388,11 +391,11 @@ function App() {
     if (Math.abs(event.deltaY) < 4 || !about || about.sections.length === 0) return
     const jobs = about.sections[aboutSectionIndex].jobs ?? []
     if (jobs.length < 2) return
+    event.preventDefault()
+    event.stopPropagation()
     const now = Date.now()
     if (now - experienceWheelCooldownRef.current < 300) return
     experienceWheelCooldownRef.current = now
-    event.preventDefault()
-    event.stopPropagation()
     selectExperience(experienceIndex + (event.deltaY > 0 ? 1 : -1))
   }
 
@@ -406,11 +409,11 @@ function App() {
     if (Math.abs(event.deltaY) < 4 || !about || about.sections.length === 0) return
     const education = about.sections[aboutSectionIndex].education ?? []
     if (education.length < 2) return
+    event.preventDefault()
+    event.stopPropagation()
     const now = Date.now()
     if (now - educationWheelCooldownRef.current < 300) return
     educationWheelCooldownRef.current = now
-    event.preventDefault()
-    event.stopPropagation()
     selectEducation(educationIndex + (event.deltaY > 0 ? 1 : -1))
   }
 
@@ -464,7 +467,8 @@ function App() {
             {isChinese ? '這裡將展示我的作品與實作專案。' : 'A collection of projects, experiments, and thoughtful digital experiences.'}
           </p>
           <div className="portfolio-grid mt-14">
-            {portfolio.items.map((project, index) => (
+            {(portfolio.items ?? []).map((project, index) => (
+
               <article className="portfolio-card" key={project.id}>
                 <div className="portfolio-card-topline">
                   <span className="eyebrow">Project</span>
@@ -573,90 +577,97 @@ function App() {
               </div>
               <p className="wheel-hint">{isChinese ? '滾動或使用方向鍵' : 'Scroll or use arrow keys'}</p>
             </div>
-            <article className="about-content lg:order-1" key={about.sections[aboutSectionIndex].id}>
-              <p className="fact-label">{about.sections[aboutSectionIndex].kicker[language]}</p>
-              <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-5xl">{about.sections[aboutSectionIndex].title[language]}</h2>
-              {about.sections[aboutSectionIndex].description[language] && (
-                <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">{about.sections[aboutSectionIndex].description[language]}</p>
-              )}
-              {about.sections[aboutSectionIndex].jobs && (
-                <div className="experience-carousel mt-10" onWheel={handleExperienceWheel}>
-                  <div className="experience-list">
-                    {(() => {
-                      const jobs = about.sections[aboutSectionIndex].jobs ?? []
-                      const job = jobs[experienceIndex]
-                      if (!job) return null
-                      return (
-                        <article className="experience-item" key={job.company[language]}>
-                          <div className="experience-period">{job.period[language]}</div>
-                          <div>
-                            <h3 className="experience-company">{job.company[language]}</h3>
-                            <p className="experience-role">{job.role[language]}</p>
-                            <p className="mt-3 text-slate-300">{job.responsibilities[language]}</p>
-                          </div>
-                        </article>
-                      )
-                    })()}
-                  </div>
-                  <div className="experience-dots" role="tablist" aria-label={isChinese ? '工作經歷列表' : 'Work experience list'}>
-                    {(about.sections[aboutSectionIndex].jobs ?? []).map((job, index) => (
-                      <button
-                        className={index === experienceIndex ? 'experience-dot active' : 'experience-dot'}
-                        key={job.company[language]}
-                        type="button"
-                        role="tab"
-                        aria-label={job.company[language]}
-                        aria-selected={index === experienceIndex}
-                        onClick={() => selectExperience(index)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-              {!about.sections[aboutSectionIndex].jobs && about.sections[aboutSectionIndex].items.length > 0 && (
-                <div className="about-detail-grid mt-10 grid gap-4 sm:grid-cols-2">
-                  {about.sections[aboutSectionIndex].items.map((item) => (
-                    <div className="about-detail" key={item.label[language]}>
-                      <p className="fact-label">{item.label[language]}</p>
-                      <p className="mt-3 text-slate-200">{item.value[language]}</p>
+            {(() => {
+              const currentSection = about?.sections?.[aboutSectionIndex]
+              if (!currentSection) return null
+              return (
+                <article className="about-content lg:order-1" key={currentSection.id}>
+                  <p className="fact-label">{currentSection.kicker[language]}</p>
+                  <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-5xl">{currentSection.title[language]}</h2>
+                  {currentSection.description[language] && (
+                    <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">{currentSection.description[language]}</p>
+                  )}
+                  {currentSection.jobs && (
+                    <div className="experience-carousel mt-10" onWheel={handleExperienceWheel}>
+                      <div className="experience-list">
+                        {(() => {
+                          const jobs = currentSection.jobs ?? []
+
+                          const job = jobs[experienceIndex]
+                          if (!job) return null
+                          return (
+                            <article className="experience-item" key={job.company[language]}>
+                              <div className="experience-period">{job.period[language]}</div>
+                              <div>
+                                <h3 className="experience-company">{job.company[language]}</h3>
+                                <p className="experience-role">{job.role[language]}</p>
+                                <p className="mt-3 text-slate-300">{job.responsibilities[language]}</p>
+                              </div>
+                            </article>
+                          )
+                        })()}
+                      </div>
+                      <div className="experience-dots" role="tablist" aria-label={isChinese ? '工作經歷列表' : 'Work experience list'}>
+                        {(currentSection.jobs ?? []).map((job, index) => (
+                          <button
+                            className={index === experienceIndex ? 'experience-dot active' : 'experience-dot'}
+                            key={job.company[language]}
+                            type="button"
+                            role="tab"
+                            aria-label={job.company[language]}
+                            aria-selected={index === experienceIndex}
+                            onClick={() => selectExperience(index)}
+                          />
+                        ))}
+                      </div>
                     </div>
-                  ))}
-                </div>
-              )}
-              {about.sections[aboutSectionIndex].education && (
-                <div className="experience-carousel mt-10" onWheel={handleEducationWheel}>
-                  <div className="experience-list">
-                    {(() => {
-                      const education = about.sections[aboutSectionIndex].education ?? []
-                      const record = education[educationIndex]
-                      if (!record) return null
-                      return (
-                        <article className="experience-item" key={record.institution[language]}>
-                          <div className="experience-period">{record.period[language]}</div>
-                          <div>
-                            <h3 className="experience-company">{record.institution[language]}</h3>
-                            <p className="experience-role">{record.degree[language]}</p>
-                          </div>
-                        </article>
-                      )
-                    })()}
-                  </div>
-                  <div className="experience-dots" role="tablist" aria-label={isChinese ? '學歷列表' : 'Education list'}>
-                    {(about.sections[aboutSectionIndex].education ?? []).map((record, index) => (
-                      <button
-                        className={index === educationIndex ? 'experience-dot active' : 'experience-dot'}
-                        key={record.institution[language]}
-                        type="button"
-                        role="tab"
-                        aria-label={record.institution[language]}
-                        aria-selected={index === educationIndex}
-                        onClick={() => selectEducation(index)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-            </article>
+                  )}
+                  {!currentSection.jobs && currentSection.items.length > 0 && (
+                    <div className="about-detail-grid mt-10 grid gap-4 sm:grid-cols-2">
+                      {currentSection.items.map((item) => (
+                        <div className="about-detail" key={item.label[language]}>
+                          <p className="fact-label">{item.label[language]}</p>
+                          <p className="mt-3 text-slate-200">{item.value[language]}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {currentSection.education && (
+                    <div className="experience-carousel mt-10" onWheel={handleEducationWheel}>
+                      <div className="experience-list">
+                        {(() => {
+                          const education = currentSection.education ?? []
+                          const record = education[educationIndex]
+                          if (!record) return null
+                          return (
+                            <article className="experience-item" key={record.institution[language]}>
+                              <div className="experience-period">{record.period[language]}</div>
+                              <div>
+                                <h3 className="experience-company">{record.institution[language]}</h3>
+                                <p className="experience-role">{record.degree[language]}</p>
+                              </div>
+                            </article>
+                          )
+                        })()}
+                      </div>
+                      <div className="experience-dots" role="tablist" aria-label={isChinese ? '學歷列表' : 'Education list'}>
+                        {(currentSection.education ?? []).map((record, index) => (
+                          <button
+                            className={index === educationIndex ? 'experience-dot active' : 'experience-dot'}
+                            key={record.institution[language]}
+                            type="button"
+                            role="tab"
+                            aria-label={record.institution[language]}
+                            aria-selected={index === educationIndex}
+                            onClick={() => selectEducation(index)}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </article>
+              )
+            })()}
             <div className="about-mobile-sections">
               {about.sections.map((section) => (
                 <article className="about-mobile-section" key={section.id}>
