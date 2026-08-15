@@ -129,7 +129,7 @@ function App() {
       ) : pathname === '/life-records' ? (
         <LifeRecordsPage photos={allLifePhotos} language={language} onSelectPhoto={setSelectedLifePhoto} />
       ) : pathname === '/about' ? (
-        <AboutPage about={about} language={language} pathname={pathname} appHref={toAppHref} />
+        <AboutPage about={about} language={language} pathname={pathname} appHref={toAppHref} imageUrl={home.hero.photo.imageUrl} />
       ) : (
         <HeroSection
           language={language}

@@ -7,14 +7,21 @@ type AboutPageProps = {
   language: Language
   pathname: string
   appHref: (path: string) => string
+  imageUrl: string
 }
 
-export function AboutPage({ about, language, pathname, appHref }: AboutPageProps) {
+export function AboutPage({ about, language, pathname, appHref, imageUrl }: AboutPageProps) {
+
   const [sectionIndex, setSectionIndex] = useState(0)
   const [experienceIndex, setExperienceIndex] = useState(0)
   const [educationIndex, setEducationIndex] = useState(0)
 
   const isChinese = language === 'zh-TW'
+
+  useEffect(() => {
+    setExperienceIndex(0)
+    setEducationIndex(0)
+  }, [sectionIndex])
 
   const selectSection = (index: number) => {
     if (!about || about.sections.length === 0) return
@@ -108,7 +115,7 @@ export function AboutPage({ about, language, pathname, appHref }: AboutPageProps
         </div>
         <a className="about-photo-card" href="https://www.linkedin.com/in/edwardhsu1994/" target="_blank" rel="noreferrer" aria-label="View Edward Hsu's LinkedIn profile">
           <span className="border-glow-frame">
-            <img src="" alt="Edward Hsu" />
+            <img src={imageUrl} alt="Edward Hsu" />
           </span>
           <span>Edward Hsu <span aria-hidden="true">↗</span></span>
         </a>
