@@ -14,8 +14,8 @@ const LIFE_PAGE_SIZE = 20
 const APP_BASE_PATH = import.meta.env.BASE_URL.replace(/\/$/, '')
 const toAppPath = () => {
   const rawPath = window.location.pathname
-  if (APP_BASE_PATH && rawPath.startsWith(APP_BASE_PATH)) return rawPath.slice(APP_BASE_PATH.length) || '/'
-  return rawPath
+  const appPath = APP_BASE_PATH && rawPath.startsWith(APP_BASE_PATH) ? rawPath.slice(APP_BASE_PATH.length) : rawPath
+  return appPath.replace(/\/+$/, '') || '/'
 }
 const toAppHref = (path: string) => `${APP_BASE_PATH}${path}`
 type HeroContent = {
@@ -126,9 +126,15 @@ function getLifeMasonryColumnCount() {
   return 3
 }
 
-const allLifePhotos = [...(lifeRecordsData as LifeRecords).items].sort((a, b) => {
-  const dateA = a.date.value ? Date.parse(`${a.date.value}T00:00:00`) : Number.NEGATIVE_INFINITY
-  const dateB = b.date.value ? Date.parse(`${b.date.value}T00:00:00`) : Number.NEGATIVE_INFINITY
+const allLifePhotos = [...((lifeRecordsData as LifeRecords | undefined)?.items ?? [])].sort((a, b) => {
+  const parseDate = (value: string | null | undefined) => {
+    if (!value) return Number.NEGATIVE_INFINITY
+    const parsed = Date.parse(`${value}T00:00:00`)
+    return Number.isNaN(parsed) ? Number.NEGATIVE_INFINITY : parsed
+  }
+  const dateA = parseDate(a.date.value)
+  const dateB = parseDate(b.date.value)
+  if (dateA === dateB) return 0
   return dateB - dateA
 })
 
@@ -137,7 +143,12 @@ function App() {
   const initialTypingRef = useRef(true)
   const [pathname, setPathname] = useState(toAppPath)
   const [language, setLanguage] = useState<Language>(() => {
-    const savedLanguage = localStorage.getItem('preferred-language')
+    let savedLanguage: string | null
+    try {
+      savedLanguage = localStorage.getItem('preferred-language')
+    } catch {
+      savedLanguage = null
+    }
     if (savedLanguage === 'zh' || savedLanguage === 'zh-TW') return 'zh-TW'
     return 'en-US'
   })
@@ -148,6 +159,9 @@ function App() {
   const [loadedLifePhotos, setLoadedLifePhotos] = useState(() => allLifePhotos.slice(0, LIFE_PAGE_SIZE))
   const [lifeMasonryColumnCount, setLifeMasonryColumnCount] = useState(getLifeMasonryColumnCount)
   const lifeLoadMoreRef = useRef<HTMLDivElement>(null)
+  const aboutWheelCooldownRef = useRef(0)
+  const experienceWheelCooldownRef = useRef(0)
+  const educationWheelCooldownRef = useRef(0)
   const lifeMasonryColumns = Array.from({ length: lifeMasonryColumnCount }, () => [] as Array<{ photo: LifePhoto; index: number }>)
   loadedLifePhotos.forEach((photo, index) => {
     lifeMasonryColumns[index % lifeMasonryColumnCount].push({ photo, index })
@@ -159,7 +173,7 @@ function App() {
   const isChinese = language === 'zh-TW'
   const content = home?.hero.content[language] ?? home?.hero.content['en-US']
   const imeAnime = home?.hero.content_ime_anime?.['zh-TW'] ?? EMPTY_IME_ANIME
-  const heroButtons = home?.hero.buttons.items ?? []
+  const heroButtons = home?.hero?.buttons?.items ?? []
   const navigationItems = navigation?.items ?? []
   const [typedGreeting, setTypedGreeting] = useState('')
   const [typedName, setTypedName] = useState('')
@@ -171,7 +185,10 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (pathname !== '/life-records') return undefined
+    if (pathname !== '/life-records') {
+      setSelectedLifePhoto(null)
+      return undefined
+    }
     setLoadedLifePhotos(allLifePhotos.slice(0, LIFE_PAGE_SIZE))
     return undefined
   }, [pathname])
@@ -196,7 +213,11 @@ function App() {
   const [typingStage, setTypingStage] = useState<TypingStage>('waiting')
 
   useEffect(() => {
-    localStorage.setItem('preferred-language', language)
+    try {
+      localStorage.setItem('preferred-language', language)
+    } catch {
+      // storage unavailable (private mode / blocked cookies): language still works for this session
+    }
   }, [language])
 
   useEffect(() => {
@@ -206,7 +227,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (!about) return undefined
+    if (!about || about.sections.length === 0) return undefined
 
     const syncSectionFromHash = () => {
       const sectionId = window.location.hash.replace(/^#/, '')
@@ -229,7 +250,7 @@ function App() {
   }, [about])
 
   useEffect(() => {
-    if (!content) return undefined
+    if (!content || pathname !== '/') return undefined
 
     const timers: number[] = []
     const typingDuration = (text: string, speed?: number) => {
@@ -268,7 +289,7 @@ function App() {
     typeText(content.intro, setTypedIntro, introStart, introSpeed)
 
     return () => timers.forEach((timer) => window.clearTimeout(timer))
-  }, [content?.greeting, content?.name, content?.intro, imeAnime, language])
+  }, [content?.greeting, content?.name, content?.intro, imeAnime, language, pathname])
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -282,15 +303,20 @@ function App() {
 
   useEffect(() => {
     if (!selectedLifePhoto) return undefined
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setSelectedLifePhoto(null)
     }
     window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', handleKeyDown)
+    }
   }, [selectedLifePhoto])
 
   useEffect(() => {
-    if (!about || pathname !== '/about') return undefined
+    if (!about || about.sections.length === 0 || pathname !== '/about') return undefined
 
     const handleGlobalAboutKeyDown = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement
@@ -324,7 +350,7 @@ function App() {
   }
 
   const selectAboutSection = (index: number) => {
-    if (!about) return
+    if (!about || about.sections.length === 0) return
     const nextIndex = Math.max(0, Math.min(index, about.sections.length - 1))
     setAboutSectionIndex(nextIndex)
     const sectionId = about.sections[nextIndex].id
@@ -334,7 +360,7 @@ function App() {
   }
 
   const handleAboutKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
-    if (!about) return
+    if (!about || about.sections.length === 0) return
     if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
       event.preventDefault()
       selectAboutSection(aboutSectionIndex + 1)
@@ -346,38 +372,48 @@ function App() {
   }
 
   const handleAboutWheel = (event: ReactWheelEvent<HTMLDivElement>) => {
-    if (Math.abs(event.deltaY) < 4 || !about) return
+    if (Math.abs(event.deltaY) < 4 || !about || about.sections.length === 0) return
+    if (window.innerWidth < 640) return
+    const now = Date.now()
+    if (now - aboutWheelCooldownRef.current < 300) return
+    aboutWheelCooldownRef.current = now
     event.preventDefault()
     selectAboutSection(aboutSectionIndex + (event.deltaY > 0 ? 1 : -1))
   }
 
   const selectExperience = (index: number) => {
-    if (!about) return
+    if (!about || about.sections.length === 0) return
     const jobs = about.sections[aboutSectionIndex].jobs ?? []
     setExperienceIndex(Math.max(0, Math.min(index, jobs.length - 1)))
   }
 
   const handleExperienceWheel = (event: ReactWheelEvent<HTMLDivElement>) => {
-    if (Math.abs(event.deltaY) < 4 || !about) return
+    if (Math.abs(event.deltaY) < 4 || !about || about.sections.length === 0) return
     const jobs = about.sections[aboutSectionIndex].jobs ?? []
     if (jobs.length < 2) return
     event.preventDefault()
     event.stopPropagation()
+    const now = Date.now()
+    if (now - experienceWheelCooldownRef.current < 300) return
+    experienceWheelCooldownRef.current = now
     selectExperience(experienceIndex + (event.deltaY > 0 ? 1 : -1))
   }
 
   const selectEducation = (index: number) => {
-    if (!about) return
+    if (!about || about.sections.length === 0) return
     const education = about.sections[aboutSectionIndex].education ?? []
     setEducationIndex(Math.max(0, Math.min(index, education.length - 1)))
   }
 
   const handleEducationWheel = (event: ReactWheelEvent<HTMLDivElement>) => {
-    if (Math.abs(event.deltaY) < 4 || !about) return
+    if (Math.abs(event.deltaY) < 4 || !about || about.sections.length === 0) return
     const education = about.sections[aboutSectionIndex].education ?? []
     if (education.length < 2) return
     event.preventDefault()
     event.stopPropagation()
+    const now = Date.now()
+    if (now - educationWheelCooldownRef.current < 300) return
+    educationWheelCooldownRef.current = now
     selectEducation(educationIndex + (event.deltaY > 0 ? 1 : -1))
   }
 
@@ -431,11 +467,12 @@ function App() {
             {isChinese ? '這裡將展示我的作品與實作專案。' : 'A collection of projects, experiments, and thoughtful digital experiences.'}
           </p>
           <div className="portfolio-grid mt-14">
-            {portfolio.items.map((project) => (
+            {(portfolio.items ?? []).map((project, index) => (
+
               <article className="portfolio-card" key={project.id}>
                 <div className="portfolio-card-topline">
                   <span className="eyebrow">Project</span>
-                  <span className="portfolio-card-index">01</span>
+                  <span className="portfolio-card-index">{String(index + 1).padStart(2, '0')}</span>
                 </div>
                 <h2>{project.title[language]}</h2>
                 <p className="portfolio-card-description">{project.description[language]}</p>
@@ -540,90 +577,97 @@ function App() {
               </div>
               <p className="wheel-hint">{isChinese ? '滾動或使用方向鍵' : 'Scroll or use arrow keys'}</p>
             </div>
-            <article className="about-content lg:order-1" key={about.sections[aboutSectionIndex].id}>
-              <p className="fact-label">{about.sections[aboutSectionIndex].kicker[language]}</p>
-              <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-5xl">{about.sections[aboutSectionIndex].title[language]}</h2>
-              {about.sections[aboutSectionIndex].description[language] && (
-                <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">{about.sections[aboutSectionIndex].description[language]}</p>
-              )}
-              {about.sections[aboutSectionIndex].jobs && (
-                <div className="experience-carousel mt-10" onWheel={handleExperienceWheel}>
-                  <div className="experience-list">
-                    {(() => {
-                      const jobs = about.sections[aboutSectionIndex].jobs ?? []
-                      const job = jobs[experienceIndex]
-                      if (!job) return null
-                      return (
-                        <article className="experience-item" key={job.company[language]}>
-                          <div className="experience-period">{job.period[language]}</div>
-                          <div>
-                            <h3 className="experience-company">{job.company[language]}</h3>
-                            <p className="experience-role">{job.role[language]}</p>
-                            <p className="mt-3 text-slate-300">{job.responsibilities[language]}</p>
-                          </div>
-                        </article>
-                      )
-                    })()}
-                  </div>
-                  <div className="experience-dots" role="tablist" aria-label={isChinese ? '工作經歷列表' : 'Work experience list'}>
-                    {(about.sections[aboutSectionIndex].jobs ?? []).map((job, index) => (
-                      <button
-                        className={index === experienceIndex ? 'experience-dot active' : 'experience-dot'}
-                        key={job.company[language]}
-                        type="button"
-                        role="tab"
-                        aria-label={job.company[language]}
-                        aria-selected={index === experienceIndex}
-                        onClick={() => selectExperience(index)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-              {!about.sections[aboutSectionIndex].jobs && about.sections[aboutSectionIndex].items.length > 0 && (
-                <div className="about-detail-grid mt-10 grid gap-4 sm:grid-cols-2">
-                  {about.sections[aboutSectionIndex].items.map((item) => (
-                    <div className="about-detail" key={item.label[language]}>
-                      <p className="fact-label">{item.label[language]}</p>
-                      <p className="mt-3 text-slate-200">{item.value[language]}</p>
+            {(() => {
+              const currentSection = about?.sections?.[aboutSectionIndex]
+              if (!currentSection) return null
+              return (
+                <article className="about-content lg:order-1" key={currentSection.id}>
+                  <p className="fact-label">{currentSection.kicker[language]}</p>
+                  <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-5xl">{currentSection.title[language]}</h2>
+                  {currentSection.description[language] && (
+                    <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">{currentSection.description[language]}</p>
+                  )}
+                  {currentSection.jobs && (
+                    <div className="experience-carousel mt-10" onWheel={handleExperienceWheel}>
+                      <div className="experience-list">
+                        {(() => {
+                          const jobs = currentSection.jobs ?? []
+
+                          const job = jobs[experienceIndex]
+                          if (!job) return null
+                          return (
+                            <article className="experience-item" key={job.company[language]}>
+                              <div className="experience-period">{job.period[language]}</div>
+                              <div>
+                                <h3 className="experience-company">{job.company[language]}</h3>
+                                <p className="experience-role">{job.role[language]}</p>
+                                <p className="mt-3 text-slate-300">{job.responsibilities[language]}</p>
+                              </div>
+                            </article>
+                          )
+                        })()}
+                      </div>
+                      <div className="experience-dots" role="tablist" aria-label={isChinese ? '工作經歷列表' : 'Work experience list'}>
+                        {(currentSection.jobs ?? []).map((job, index) => (
+                          <button
+                            className={index === experienceIndex ? 'experience-dot active' : 'experience-dot'}
+                            key={job.company[language]}
+                            type="button"
+                            role="tab"
+                            aria-label={job.company[language]}
+                            aria-selected={index === experienceIndex}
+                            onClick={() => selectExperience(index)}
+                          />
+                        ))}
+                      </div>
                     </div>
-                  ))}
-                </div>
-              )}
-              {about.sections[aboutSectionIndex].education && (
-                <div className="experience-carousel mt-10" onWheel={handleEducationWheel}>
-                  <div className="experience-list">
-                    {(() => {
-                      const education = about.sections[aboutSectionIndex].education ?? []
-                      const record = education[educationIndex]
-                      if (!record) return null
-                      return (
-                        <article className="experience-item" key={record.institution[language]}>
-                          <div className="experience-period">{record.period[language]}</div>
-                          <div>
-                            <h3 className="experience-company">{record.institution[language]}</h3>
-                            <p className="experience-role">{record.degree[language]}</p>
-                          </div>
-                        </article>
-                      )
-                    })()}
-                  </div>
-                  <div className="experience-dots" role="tablist" aria-label={isChinese ? '學歷列表' : 'Education list'}>
-                    {(about.sections[aboutSectionIndex].education ?? []).map((record, index) => (
-                      <button
-                        className={index === educationIndex ? 'experience-dot active' : 'experience-dot'}
-                        key={record.institution[language]}
-                        type="button"
-                        role="tab"
-                        aria-label={record.institution[language]}
-                        aria-selected={index === educationIndex}
-                        onClick={() => selectEducation(index)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-            </article>
+                  )}
+                  {!currentSection.jobs && currentSection.items.length > 0 && (
+                    <div className="about-detail-grid mt-10 grid gap-4 sm:grid-cols-2">
+                      {currentSection.items.map((item) => (
+                        <div className="about-detail" key={item.label[language]}>
+                          <p className="fact-label">{item.label[language]}</p>
+                          <p className="mt-3 text-slate-200">{item.value[language]}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  {currentSection.education && (
+                    <div className="experience-carousel mt-10" onWheel={handleEducationWheel}>
+                      <div className="experience-list">
+                        {(() => {
+                          const education = currentSection.education ?? []
+                          const record = education[educationIndex]
+                          if (!record) return null
+                          return (
+                            <article className="experience-item" key={record.institution[language]}>
+                              <div className="experience-period">{record.period[language]}</div>
+                              <div>
+                                <h3 className="experience-company">{record.institution[language]}</h3>
+                                <p className="experience-role">{record.degree[language]}</p>
+                              </div>
+                            </article>
+                          )
+                        })()}
+                      </div>
+                      <div className="experience-dots" role="tablist" aria-label={isChinese ? '學歷列表' : 'Education list'}>
+                        {(currentSection.education ?? []).map((record, index) => (
+                          <button
+                            className={index === educationIndex ? 'experience-dot active' : 'experience-dot'}
+                            key={record.institution[language]}
+                            type="button"
+                            role="tab"
+                            aria-label={record.institution[language]}
+                            aria-selected={index === educationIndex}
+                            onClick={() => selectEducation(index)}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </article>
+              )
+            })()}
             <div className="about-mobile-sections">
               {about.sections.map((section) => (
                 <article className="about-mobile-section" key={section.id}>

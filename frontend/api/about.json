@@ -51,7 +51,7 @@
     {
       "id": "skills",
       "label": { "en-US": "Skills", "zh-TW": "技術能力" },
-      "kicker": { "en-US": "04 / Skills", "zh-TW": "04 / 技術能力" },
+      "kicker": { "en-US": "03 / Skills", "zh-TW": "03 / 技術能力" },
       "title": { "en-US": "From AI Agents to cloud-native systems.", "zh-TW": "從 AI Agent 到雲原生架構。" },
       "description": { "en-US": "", "zh-TW": "" },
       "items": [
@@ -64,7 +64,7 @@
     {
       "id": "education",
       "label": { "en-US": "Education", "zh-TW": "學歷" },
-      "kicker": { "en-US": "03 / Education", "zh-TW": "03 / 學歷" },
+      "kicker": { "en-US": "04 / Education", "zh-TW": "04 / 學歷" },
       "title": { "en-US": "Always learning, always shipping.", "zh-TW": "持續學習，也持續做出成果。" },
       "description": {
         "en-US": "My education gave me a foundation in structured thinking, while hands-on projects taught me how to learn quickly and make ideas tangible.",
