@@ -14,8 +14,8 @@ const LIFE_PAGE_SIZE = 20
 const APP_BASE_PATH = import.meta.env.BASE_URL.replace(/\/$/, '')
 const toAppPath = () => {
   const rawPath = window.location.pathname
-  if (APP_BASE_PATH && rawPath.startsWith(APP_BASE_PATH)) return rawPath.slice(APP_BASE_PATH.length) || '/'
-  return rawPath
+  const appPath = APP_BASE_PATH && rawPath.startsWith(APP_BASE_PATH) ? rawPath.slice(APP_BASE_PATH.length) : rawPath
+  return appPath.replace(/\/+$/, '') || '/'
 }
 const toAppHref = (path: string) => `${APP_BASE_PATH}${path}`
 type HeroContent = {
@@ -126,10 +126,13 @@ function getLifeMasonryColumnCount() {
   return 3
 }
 
-const allLifePhotos = [...(lifeRecordsData as LifeRecords).items].sort((a, b) => {
-  const dateA = a.date.value ? Date.parse(`${a.date.value}T00:00:00`) : Number.NEGATIVE_INFINITY
-  const dateB = b.date.value ? Date.parse(`${b.date.value}T00:00:00`) : Number.NEGATIVE_INFINITY
-  return dateB - dateA
+const allLifePhotos = [...((lifeRecordsData as LifeRecords | undefined)?.items ?? [])].sort((a, b) => {
+  const parseDate = (value: string | null | undefined) => {
+    if (!value) return Number.NEGATIVE_INFINITY
+    const parsed = Date.parse(`${value}T00:00:00`)
+    return Number.isNaN(parsed) ? Number.NEGATIVE_INFINITY : parsed
+  }
+  return parseDate(b.date.value) - parseDate(a.date.value)
 })
 
 function App() {
@@ -137,7 +140,12 @@ function App() {
   const initialTypingRef = useRef(true)
   const [pathname, setPathname] = useState(toAppPath)
   const [language, setLanguage] = useState<Language>(() => {
-    const savedLanguage = localStorage.getItem('preferred-language')
+    let savedLanguage: string | null = null
+    try {
+      savedLanguage = localStorage.getItem('preferred-language')
+    } catch {
+      savedLanguage = null
+    }
     if (savedLanguage === 'zh' || savedLanguage === 'zh-TW') return 'zh-TW'
     return 'en-US'
   })
@@ -148,6 +156,9 @@ function App() {
   const [loadedLifePhotos, setLoadedLifePhotos] = useState(() => allLifePhotos.slice(0, LIFE_PAGE_SIZE))
   const [lifeMasonryColumnCount, setLifeMasonryColumnCount] = useState(getLifeMasonryColumnCount)
   const lifeLoadMoreRef = useRef<HTMLDivElement>(null)
+  const aboutWheelCooldownRef = useRef(0)
+  const experienceWheelCooldownRef = useRef(0)
+  const educationWheelCooldownRef = useRef(0)
   const lifeMasonryColumns = Array.from({ length: lifeMasonryColumnCount }, () => [] as Array<{ photo: LifePhoto; index: number }>)
   loadedLifePhotos.forEach((photo, index) => {
     lifeMasonryColumns[index % lifeMasonryColumnCount].push({ photo, index })
@@ -159,7 +170,7 @@ function App() {
   const isChinese = language === 'zh-TW'
   const content = home?.hero.content[language] ?? home?.hero.content['en-US']
   const imeAnime = home?.hero.content_ime_anime?.['zh-TW'] ?? EMPTY_IME_ANIME
-  const heroButtons = home?.hero.buttons.items ?? []
+  const heroButtons = home?.hero?.buttons?.items ?? []
   const navigationItems = navigation?.items ?? []
   const [typedGreeting, setTypedGreeting] = useState('')
   const [typedName, setTypedName] = useState('')
@@ -171,7 +182,10 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (pathname !== '/life-records') return undefined
+    if (pathname !== '/life-records') {
+      setSelectedLifePhoto(null)
+      return undefined
+    }
     setLoadedLifePhotos(allLifePhotos.slice(0, LIFE_PAGE_SIZE))
     return undefined
   }, [pathname])
@@ -196,7 +210,11 @@ function App() {
   const [typingStage, setTypingStage] = useState<TypingStage>('waiting')
 
   useEffect(() => {
-    localStorage.setItem('preferred-language', language)
+    try {
+      localStorage.setItem('preferred-language', language)
+    } catch {
+      // storage unavailable (private mode / blocked cookies): language still works for this session
+    }
   }, [language])
 
   useEffect(() => {
@@ -206,7 +224,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (!about) return undefined
+    if (!about || about.sections.length === 0) return undefined
 
     const syncSectionFromHash = () => {
       const sectionId = window.location.hash.replace(/^#/, '')
@@ -229,7 +247,7 @@ function App() {
   }, [about])
 
   useEffect(() => {
-    if (!content) return undefined
+    if (!content || pathname !== '/') return undefined
 
     const timers: number[] = []
     const typingDuration = (text: string, speed?: number) => {
@@ -268,7 +286,7 @@ function App() {
     typeText(content.intro, setTypedIntro, introStart, introSpeed)
 
     return () => timers.forEach((timer) => window.clearTimeout(timer))
-  }, [content?.greeting, content?.name, content?.intro, imeAnime, language])
+  }, [content?.greeting, content?.name, content?.intro, imeAnime, language, pathname])
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
@@ -282,15 +300,20 @@ function App() {
 
   useEffect(() => {
     if (!selectedLifePhoto) return undefined
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setSelectedLifePhoto(null)
     }
     window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
+    return () => {
+      document.body.style.overflow = previousOverflow
+      window.removeEventListener('keydown', handleKeyDown)
+    }
   }, [selectedLifePhoto])
 
   useEffect(() => {
-    if (!about || pathname !== '/about') return undefined
+    if (!about || about.sections.length === 0 || pathname !== '/about') return undefined
 
     const handleGlobalAboutKeyDown = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement
@@ -324,7 +347,7 @@ function App() {
   }
 
   const selectAboutSection = (index: number) => {
-    if (!about) return
+    if (!about || about.sections.length === 0) return
     const nextIndex = Math.max(0, Math.min(index, about.sections.length - 1))
     setAboutSectionIndex(nextIndex)
     const sectionId = about.sections[nextIndex].id
@@ -334,7 +357,7 @@ function App() {
   }
 
   const handleAboutKeyDown = (event: ReactKeyboardEvent<HTMLDivElement>) => {
-    if (!about) return
+    if (!about || about.sections.length === 0) return
     if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
       event.preventDefault()
       selectAboutSection(aboutSectionIndex + 1)
@@ -346,36 +369,46 @@ function App() {
   }
 
   const handleAboutWheel = (event: ReactWheelEvent<HTMLDivElement>) => {
-    if (Math.abs(event.deltaY) < 4 || !about) return
+    if (Math.abs(event.deltaY) < 4 || !about || about.sections.length === 0) return
+    if (window.innerWidth < 640) return
+    const now = Date.now()
+    if (now - aboutWheelCooldownRef.current < 300) return
+    aboutWheelCooldownRef.current = now
     event.preventDefault()
     selectAboutSection(aboutSectionIndex + (event.deltaY > 0 ? 1 : -1))
   }
 
   const selectExperience = (index: number) => {
-    if (!about) return
+    if (!about || about.sections.length === 0) return
     const jobs = about.sections[aboutSectionIndex].jobs ?? []
     setExperienceIndex(Math.max(0, Math.min(index, jobs.length - 1)))
   }
 
   const handleExperienceWheel = (event: ReactWheelEvent<HTMLDivElement>) => {
-    if (Math.abs(event.deltaY) < 4 || !about) return
+    if (Math.abs(event.deltaY) < 4 || !about || about.sections.length === 0) return
     const jobs = about.sections[aboutSectionIndex].jobs ?? []
     if (jobs.length < 2) return
+    const now = Date.now()
+    if (now - experienceWheelCooldownRef.current < 300) return
+    experienceWheelCooldownRef.current = now
     event.preventDefault()
     event.stopPropagation()
     selectExperience(experienceIndex + (event.deltaY > 0 ? 1 : -1))
   }
 
   const selectEducation = (index: number) => {
-    if (!about) return
+    if (!about || about.sections.length === 0) return
     const education = about.sections[aboutSectionIndex].education ?? []
     setEducationIndex(Math.max(0, Math.min(index, education.length - 1)))
   }
 
   const handleEducationWheel = (event: ReactWheelEvent<HTMLDivElement>) => {
-    if (Math.abs(event.deltaY) < 4 || !about) return
+    if (Math.abs(event.deltaY) < 4 || !about || about.sections.length === 0) return
     const education = about.sections[aboutSectionIndex].education ?? []
     if (education.length < 2) return
+    const now = Date.now()
+    if (now - educationWheelCooldownRef.current < 300) return
+    educationWheelCooldownRef.current = now
     event.preventDefault()
     event.stopPropagation()
     selectEducation(educationIndex + (event.deltaY > 0 ? 1 : -1))
@@ -431,11 +464,11 @@ function App() {
             {isChinese ? '這裡將展示我的作品與實作專案。' : 'A collection of projects, experiments, and thoughtful digital experiences.'}
           </p>
           <div className="portfolio-grid mt-14">
-            {portfolio.items.map((project) => (
+            {portfolio.items.map((project, index) => (
               <article className="portfolio-card" key={project.id}>
                 <div className="portfolio-card-topline">
                   <span className="eyebrow">Project</span>
-                  <span className="portfolio-card-index">01</span>
+                  <span className="portfolio-card-index">{String(index + 1).padStart(2, '0')}</span>
                 </div>
                 <h2>{project.title[language]}</h2>
                 <p className="portfolio-card-description">{project.description[language]}</p>
