@@ -56,12 +56,30 @@ export type Navigation = {
   items: NavigationItem[]
 }
 
+export type AboutFact = {
+  label: Record<Language, string>
+  value: Record<Language, string>
+}
+
+export type AboutJob = {
+  company: Record<Language, string>
+  role: Record<Language, string>
+  period: Record<Language, string>
+  responsibilities: Record<Language, string>
+}
+
+export type AboutEducation = {
+  institution: Record<Language, string>
+  degree: Record<Language, string>
+  period: Record<Language, string>
+}
+
 export type About = {
   l10n_supported_fields: string[]
   eyebrow: Record<Language, string>
   title: Record<Language, string>
   intro: Record<Language, string>
-  facts: Array<{ label: Record<Language, string>; value: Record<Language, string> }>
+  facts: AboutFact[]
   sections: AboutSection[]
 }
 
@@ -71,18 +89,9 @@ export type AboutSection = {
   kicker: Record<Language, string>
   title: Record<Language, string>
   description: Record<Language, string>
-  items: Array<{ label: Record<Language, string>; value: Record<Language, string> }>
-  jobs?: Array<{
-    company: Record<Language, string>
-    role: Record<Language, string>
-    period: Record<Language, string>
-    responsibilities: Record<Language, string>
-  }>
-  education?: Array<{
-    institution: Record<Language, string>
-    degree: Record<Language, string>
-    period: Record<Language, string>
-  }>
+  items: AboutFact[]
+  jobs?: AboutJob[]
+  education?: AboutEducation[]
 }
 
 export type LifePhoto = {

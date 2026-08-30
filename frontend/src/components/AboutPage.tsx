@@ -1,5 +1,6 @@
-import { useEffect, useState, type CSSProperties } from 'react'
-import type { Language, About } from '../types'
+import { Fragment, useEffect, useState, type CSSProperties, type ReactNode } from 'react'
+import type { WheelEvent as ReactWheelEvent } from 'react'
+import type { About, AboutEducation, AboutFact, AboutJob, Language } from '../types'
 import { useScrollHandlers } from '../hooks/useScrollHandlers'
 
 type AboutPageProps = {
@@ -10,8 +11,88 @@ type AboutPageProps = {
   imageUrl: string
 }
 
-export function AboutPage({ about, language, pathname, appHref, imageUrl }: AboutPageProps) {
+function ExperienceItem({ job, language }: { job: AboutJob; language: Language }) {
+  return (
+    <article className="experience-item">
+      <div className="experience-period">{job.period[language]}</div>
+      <div>
+        <h3 className="experience-company">{job.company[language]}</h3>
+        <p className="experience-role">{job.role[language]}</p>
+        <p className="mt-3 text-slate-300">{job.responsibilities[language]}</p>
+      </div>
+    </article>
+  )
+}
 
+function EducationItem({ record, language }: { record: AboutEducation; language: Language }) {
+  return (
+    <article className="experience-item">
+      <div className="experience-period">{record.period[language]}</div>
+      <div>
+        <h3 className="experience-company">{record.institution[language]}</h3>
+        <p className="experience-role">{record.degree[language]}</p>
+      </div>
+    </article>
+  )
+}
+
+function AboutDetailGrid({ items, language, variant }: { items: AboutFact[]; language: Language; variant: 'desktop' | 'mobile' }) {
+  const layoutClass = variant === 'desktop' ? 'mt-10 sm:grid-cols-2' : 'mt-8'
+  return (
+    <div className={`about-detail-grid grid gap-4 ${layoutClass}`}>
+      {items.map((item) => (
+        <div className="about-detail" key={item.label[language]}>
+          <p className="fact-label">{item.label[language]}</p>
+          <p className="mt-3 text-slate-200">{item.value[language]}</p>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+type RecordCarouselProps<T> = {
+  ariaLabel: string
+  items: T[]
+  selectedIndex: number
+  itemLabel: (item: T) => string
+  renderItem: (item: T) => ReactNode
+  onSelect: (index: number) => void
+  onWheel: (event: ReactWheelEvent<HTMLDivElement>) => void
+}
+
+function RecordCarousel<T>({
+  ariaLabel,
+  items,
+  selectedIndex,
+  itemLabel,
+  renderItem,
+  onSelect,
+  onWheel,
+}: RecordCarouselProps<T>) {
+  const currentItem = items[selectedIndex]
+  return (
+    <div className="experience-carousel mt-10" onWheel={onWheel}>
+      <div className="experience-list">
+        {currentItem ? <Fragment key={itemLabel(currentItem)}>{renderItem(currentItem)}</Fragment> : null}
+      </div>
+      <div className="experience-dots" role="tablist" aria-label={ariaLabel}>
+        {items.map((item, index) => (
+          <button
+            className={index === selectedIndex ? 'experience-dot active' : 'experience-dot'}
+            key={itemLabel(item)}
+            type="button"
+            role="tab"
+            aria-label={itemLabel(item)}
+            aria-selected={index === selectedIndex}
+            onClick={() => onSelect(index)}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export function AboutPage({ about, language, pathname, appHref, imageUrl }: AboutPageProps) {
   const [sectionIndex, setSectionIndex] = useState(0)
   const [experienceIndex, setExperienceIndex] = useState(0)
   const [educationIndex, setEducationIndex] = useState(0)
@@ -53,8 +134,8 @@ export function AboutPage({ about, language, pathname, appHref, imageUrl }: Abou
     experienceIndex,
     educationIndex,
     selectAboutSection: selectSection,
-    selectExperience: selectExperience,
-    selectEducation: selectEducation,
+    selectExperience,
+    selectEducation,
   })
 
   // Sync section from hash
@@ -164,95 +245,40 @@ export function AboutPage({ about, language, pathname, appHref, imageUrl }: Abou
           </div>
           <p className="wheel-hint">{isChinese ? '滾動或使用方向鍵' : 'Scroll or use arrow keys'}</p>
         </div>
-        {(() => {
-          if (!currentSection) return null
-          return (
-            <article className="about-content lg:order-1" key={currentSection.id}>
-              <p className="fact-label">{currentSection.kicker[language]}</p>
-              <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-5xl">{currentSection.title[language]}</h2>
-              {currentSection.description[language] && (
-                <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">{currentSection.description[language]}</p>
-              )}
-              {currentSection.jobs && (
-                <div className="experience-carousel mt-10" onWheel={handleExperienceWheel}>
-                  <div className="experience-list">
-                    {(() => {
-                      const jobs = currentSection.jobs ?? []
-                      const job = jobs[experienceIndex]
-                      if (!job) return null
-                      return (
-                        <article className="experience-item" key={job.company[language]}>
-                          <div className="experience-period">{job.period[language]}</div>
-                          <div>
-                            <h3 className="experience-company">{job.company[language]}</h3>
-                            <p className="experience-role">{job.role[language]}</p>
-                            <p className="mt-3 text-slate-300">{job.responsibilities[language]}</p>
-                          </div>
-                        </article>
-                      )
-                    })()}
-                  </div>
-                  <div className="experience-dots" role="tablist" aria-label={isChinese ? '工作經歷列表' : 'Work experience list'}>
-                    {(currentSection.jobs ?? []).map((job, index) => (
-                      <button
-                        className={index === experienceIndex ? 'experience-dot active' : 'experience-dot'}
-                        key={job.company[language]}
-                        type="button"
-                        role="tab"
-                        aria-label={job.company[language]}
-                        aria-selected={index === experienceIndex}
-                        onClick={() => selectExperience(index)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-              {!currentSection.jobs && currentSection.items.length > 0 && (
-                <div className="about-detail-grid mt-10 grid gap-4 sm:grid-cols-2">
-                  {currentSection.items.map((item) => (
-                    <div className="about-detail" key={item.label[language]}>
-                      <p className="fact-label">{item.label[language]}</p>
-                      <p className="mt-3 text-slate-200">{item.value[language]}</p>
-                    </div>
-                  ))}
-                </div>
-              )}
-              {currentSection.education && (
-                <div className="experience-carousel mt-10" onWheel={handleEducationWheel}>
-                  <div className="experience-list">
-                    {(() => {
-                      const education = currentSection.education ?? []
-                      const record = education[educationIndex]
-                      if (!record) return null
-                      return (
-                        <article className="experience-item" key={record.institution[language]}>
-                          <div className="experience-period">{record.period[language]}</div>
-                          <div>
-                            <h3 className="experience-company">{record.institution[language]}</h3>
-                            <p className="experience-role">{record.degree[language]}</p>
-                          </div>
-                        </article>
-                      )
-                    })()}
-                  </div>
-                  <div className="experience-dots" role="tablist" aria-label={isChinese ? '學歷列表' : 'Education list'}>
-                    {(currentSection.education ?? []).map((record, index) => (
-                      <button
-                        className={index === educationIndex ? 'experience-dot active' : 'experience-dot'}
-                        key={record.institution[language]}
-                        type="button"
-                        role="tab"
-                        aria-label={record.institution[language]}
-                        aria-selected={index === educationIndex}
-                        onClick={() => selectEducation(index)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              )}
-            </article>
-          )
-        })()}
+        {currentSection && (
+          <article className="about-content lg:order-1" key={currentSection.id}>
+            <p className="fact-label">{currentSection.kicker[language]}</p>
+            <h2 className="mt-4 max-w-2xl text-3xl font-bold tracking-tight text-white sm:text-5xl">{currentSection.title[language]}</h2>
+            {currentSection.description[language] && (
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">{currentSection.description[language]}</p>
+            )}
+            {currentSection.jobs && (
+              <RecordCarousel
+                ariaLabel={isChinese ? '工作經歷列表' : 'Work experience list'}
+                items={currentSection.jobs}
+                selectedIndex={experienceIndex}
+                itemLabel={(job) => job.company[language]}
+                renderItem={(job) => <ExperienceItem job={job} language={language} />}
+                onSelect={selectExperience}
+                onWheel={handleExperienceWheel}
+              />
+            )}
+            {!currentSection.jobs && currentSection.items.length > 0 && (
+              <AboutDetailGrid items={currentSection.items} language={language} variant="desktop" />
+            )}
+            {currentSection.education && (
+              <RecordCarousel
+                ariaLabel={isChinese ? '學歷列表' : 'Education list'}
+                items={currentSection.education}
+                selectedIndex={educationIndex}
+                itemLabel={(record) => record.institution[language]}
+                renderItem={(record) => <EducationItem record={record} language={language} />}
+                onSelect={selectEducation}
+                onWheel={handleEducationWheel}
+              />
+            )}
+          </article>
+        )}
         <div className="about-mobile-sections">
           {about.sections.map((section) => (
             <article className="about-mobile-section" key={section.id}>
@@ -264,37 +290,17 @@ export function AboutPage({ about, language, pathname, appHref, imageUrl }: Abou
               {section.jobs && (
                 <div className="about-mobile-records mt-8">
                   {section.jobs.map((job) => (
-                    <article className="experience-item" key={job.company[language]}>
-                      <div className="experience-period">{job.period[language]}</div>
-                      <div>
-                        <h3 className="experience-company">{job.company[language]}</h3>
-                        <p className="experience-role">{job.role[language]}</p>
-                        <p className="mt-3 text-slate-300">{job.responsibilities[language]}</p>
-                      </div>
-                    </article>
+                    <ExperienceItem key={job.company[language]} job={job} language={language} />
                   ))}
                 </div>
               )}
               {!section.jobs && section.items.length > 0 && (
-                <div className="about-detail-grid mt-8 grid gap-4">
-                  {section.items.map((item) => (
-                    <div className="about-detail" key={item.label[language]}>
-                      <p className="fact-label">{item.label[language]}</p>
-                      <p className="mt-3 text-slate-200">{item.value[language]}</p>
-                    </div>
-                  ))}
-                </div>
+                <AboutDetailGrid items={section.items} language={language} variant="mobile" />
               )}
               {section.education && (
                 <div className="about-mobile-records mt-8">
                   {section.education.map((record) => (
-                    <article className="experience-item" key={record.institution[language]}>
-                      <div className="experience-period">{record.period[language]}</div>
-                      <div>
-                        <h3 className="experience-company">{record.institution[language]}</h3>
-                        <p className="experience-role">{record.degree[language]}</p>
-                      </div>
-                    </article>
+                    <EducationItem key={record.institution[language]} record={record} language={language} />
                   ))}
                 </div>
               )}
