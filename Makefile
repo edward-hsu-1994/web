@@ -1,4 +1,4 @@
-.PHONY: dev down build logs install test lint format
+.PHONY: dev down build logs install backend-install test lint format backend-test backend-lint
 
 dev:
 	docker compose up --build
@@ -13,13 +13,22 @@ logs:
 	docker compose logs -f
 
 install:
-	cd frontend && npm install
+	cd frontend && npm ci
 
-test:
+test: backend-test
 	cd frontend && npm run build
 
-lint:
+lint: backend-lint
 	cd frontend && npm run lint
+
+backend-install:
+	cd backend && python3 -m pip install -e '.[dev]'
 
 format:
 	cd frontend && npm run format
+
+backend-test:
+	cd backend && python3 -m pytest
+
+backend-lint:
+	cd backend && ruff check .

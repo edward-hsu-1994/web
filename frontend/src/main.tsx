@@ -23,7 +23,7 @@ const toAppPath = () => {
 }
 const toAppHref = (path: string) => `${APP_BASE_PATH}${path}`
 
-const allLifePhotos = [...((lifeRecordsData as LifeRecords | undefined)?.items ?? [])].sort((a, b) => {
+const allLifePhotos = [...(lifeRecordsData as LifeRecords).items].sort((a, b) => {
   const parseDate = (value: string | null | undefined) => {
     if (!value) return Number.NEGATIVE_INFINITY
     const parsed = Date.parse(`${value}T00:00:00`)
@@ -56,10 +56,10 @@ function App() {
   const navigation = navigationData as Navigation
   const about = aboutData as About
   const portfolio = portfolioData as Portfolio
-  const content = home?.hero.content[language] ?? home?.hero.content['en-US']
-  const imeAnime = home?.hero.content_ime_anime?.['zh-TW'] ?? EMPTY_IME_ANIME
-  const heroButtons = home?.hero?.buttons?.items ?? []
-  const navigationItems = navigation?.items ?? []
+  const content = home.hero.content[language] ?? home.hero.content['en-US']
+  const imeAnime = home.hero.content_ime_anime?.['zh-TW'] ?? EMPTY_IME_ANIME
+  const heroButtons = home.hero.buttons.items
+  const navigationItems = navigation.items
 
   useEffect(() => {
     try {
@@ -76,10 +76,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    if (pathname !== '/life-records') {
-      setSelectedLifePhoto(null)
-      return undefined
-    }
+    if (pathname !== '/life-records') setSelectedLifePhoto(null)
   }, [pathname])
 
   useEffect(() => {
@@ -125,7 +122,7 @@ function App() {
       />
 
       {pathname === '/portfolio' ? (
-        <PortfolioPage items={portfolio.items ?? []} language={language} />
+        <PortfolioPage items={portfolio.items} language={language} />
       ) : pathname === '/life-records' ? (
         <LifeRecordsPage photos={allLifePhotos} language={language} onSelectPhoto={setSelectedLifePhoto} />
       ) : pathname === '/about' ? (
@@ -133,13 +130,13 @@ function App() {
       ) : (
         <HeroSection
           language={language}
-          greeting={content?.greeting ?? ''}
-          name={content?.name ?? ''}
-          intro={content?.intro ?? ''}
+          greeting={content.greeting}
+          name={content.name}
+          intro={content.intro}
           imeAnime={imeAnime}
           buttons={heroButtons}
           imageUrl={home.hero.photo.imageUrl}
-          imageAlt={content?.name ?? ''}
+          imageAlt={content.name}
         />
       )}
 
