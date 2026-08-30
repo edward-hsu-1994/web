@@ -64,17 +64,21 @@ Remove the marker once the page is ready for regular use.
 ## Commands
 
 ```bash
-make install     # Install frontend dependencies
-make dev         # Start the frontend development server
-make test        # Build the frontend
-make lint        # Run the frontend linter
-make build       # Build the frontend image
-make down        # Stop the frontend service
+make install        # Install frontend dependencies (npm ci)
+make backend-install # Install backend dependencies (pip install -e '.[dev]')
+make dev            # Start the frontend development server
+make test           # Backend pytest, then build the frontend
+make lint           # Backend ruff check, then run the frontend linter
+make format         # Run the frontend formatter
+make backend-test   # Run backend tests
+make backend-lint   # Run backend linter
+make build          # Build the frontend image
+make down           # Stop the frontend service
 ```
 
 ## GitHub Pages
 
-GitHub Actions builds the frontend on every push to `main` and publishes the generated `frontend/dist/` files to the `gh-pages` branch. The workflow is defined in `.github/workflows/deploy-pages.yml` and can also be started manually from the Actions tab.
+GitHub Actions runs quality checks (`frontend` lint/build and `backend` ruff/pytest) on every push to `main` and every pull request; see `.github/workflows/quality.yml`. Deploys publish the generated `frontend/dist/` files to the `gh-pages` branch via the workflow defined in `.github/workflows/deploy-pages.yml`, which can also be started manually from the Actions tab.
 
 To display the site, configure the repository's Pages settings to deploy from the `gh-pages` branch and the root directory. The project-site URL is:
 
